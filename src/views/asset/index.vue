@@ -1,8 +1,9 @@
 <script setup>
 import {inject, ref} from "vue";
 import List from '@/components/List/List.vue';
-import Modal from '@/components/Modal/Modal.vue'
-import Alert from '@/components/Alert/Alert.vue'
+import Modal from '@/components/Modal/Modal.vue';
+import Alert from '@/components/Alert/Alert.vue';
+import NumberFlow from '@number-flow/vue'
 
 const active = ref('投资列表')
 
@@ -99,6 +100,16 @@ function handleSuccessClick() {
   })
 }
 
+// 将原来的常量定义改为响应式引用
+const assetValue = ref(1.2524243)
+
+setInterval(() => {
+  // 生成 1.xxxxxxxx 格式的数值（1后面跟9位小数）
+  const randomDecimal = Math.floor(Math.random() * 1000000000);
+  assetValue.value = 1 + randomDecimal / 1000000000;
+}, 5000);
+
+
 </script>
 <template>
   <div class="content">
@@ -125,8 +136,11 @@ function handleSuccessClick() {
         <div class="asset-title" @click="addAssetModalShow = true">我的当前资产</div>
         <img src="@/assets/svg/vector_right.svg" alt="" style="width: 104px; height: 17px;">
       </div>
-      <div class="asset-token">0.000000000 <span>Token</span></div>
-      <div class="asset-btn">
+      <div class="asset-token">
+        <NumberFlow :value="assetValue" :format="{  maximumFractionDigits: 10}"  />
+        <span>Token</span>
+      </div>
+      <div class="asset-btn" @updateAsset="updateAsset(2424244)">
         <img src="@/assets/imgs/add.png" alt="" style="width: 16px; height: 16px;">
         捐赠底池
       </div>

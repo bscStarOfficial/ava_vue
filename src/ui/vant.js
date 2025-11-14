@@ -16,7 +16,8 @@ import {
   CountDown,
   Picker,
   Cell,
-  Popover
+  Popover,
+  List
 } from "vant";
 // 2. 引入组件样式
 import 'vant/lib/index.css';
@@ -40,7 +41,8 @@ const vant = {
     Vue.use(CountDown);
     Vue.use(Picker);
     Vue.use(Cell);
-    Vue.use(Popover)
+    Vue.use(Popover);
+    Vue.use(List);
   },
 };
 

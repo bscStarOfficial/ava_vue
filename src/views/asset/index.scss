@@ -15,7 +15,7 @@
     align-items: center;
     justify-content: flex-end;
     gap: 13px;
-    margin: 59px 0px 21px 0px;
+    margin: 15px 0px 21px 0px;
     img {
       width: 26px;
       height: 26px;
@@ -29,6 +29,9 @@
       border-radius: 16px;
       border: 1px solid #0F3D5A;
       background: rgba(36, 41, 54, .8);
+    }
+    :deep(.van-popover__wrapper) {
+      height: 26px;
     }
   }
   .asset {
@@ -76,6 +79,7 @@
       span {
         font-size: 16px;
         font-weight: 400;
+        margin-left: 6px;
       }
     }
     .asset-btn {
@@ -158,7 +162,7 @@
         font-weight: 500;
         font-size: 12px;
         line-height: 16px;
-        margin-bottom: 6px;
+        margin-bottom: 8px;
         flex-wrap: wrap;
       }
     }

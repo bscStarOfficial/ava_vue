@@ -32,7 +32,7 @@ function cancel() {
 <style src="@/components/Alert/Alert.scss" scoped></style>
 <style lang="scss">
 .dialog-content {
-  top: 63px !important;
+  top: 19px !important;
   left: auto !important;
   right: 15px !important;
   margin: 0 !important;
