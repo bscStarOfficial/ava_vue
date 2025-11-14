@@ -137,7 +137,7 @@ const maxText = computed(() => {
               <img src="@/assets/svg/arrow_down.svg" alt="" class="arrow">
             </div>
             <div v-else class="drop-label">
-              请选择天数
+              {{$t('selectDays')}}
               <img src="@/assets/svg/arrow_down.svg" alt="" class="arrow">
             </div>
           </template>
@@ -146,8 +146,8 @@ const maxText = computed(() => {
 
       <!-- 按钮组 -->
       <div class="button-group">
-        <button class="btn-cancel" @click="onCancel">取消</button>
-        <button class="btn-confirm" @click="onConfirm">确定</button>
+        <button class="btn-cancel" @click="onCancel">{{$t('cancel')}}</button>
+        <button class="btn-confirm" @click="onConfirm">{{$t('confirm')}}</button>
       </div>
     </div>
   </div>

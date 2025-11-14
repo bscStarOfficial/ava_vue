@@ -1,14 +1,21 @@
 <script setup>
-import { ref, watch } from 'vue';
+import {ref, watch} from 'vue';
+import {useI18n} from "vue-i18n";
 
 // 表头配置项
-const headers = [
-  { key: 'index', label: '序号', flex: 1 },
-  { key: 'date', label: '日期', flex: 3 },
-  { key: 'principal', label: '本金', flex: 1 },
-  { key: 'profit', label: '盈利', flex: 1 },
-  { key: 'action', label: '赎回进展', flex: 2 }
+const { t, locale } = useI18n()
+
+const getHeaders = () => [
+  { key: 'index', label: t('index'), flex: 1 },
+  { key: 'date', label: t('date'), flex: 3 },
+  { key: 'principal', label: t('principal'), flex: 1 },
+  { key: 'profit', label: t('profit'), flex: 1 },
+  { key: 'action', label: t('action'), flex: 2 }
 ];
+const headers = ref(getHeaders());
+watch(locale, () => {
+  headers.value = getHeaders();
+});
 
 const props = defineProps({
   data: {

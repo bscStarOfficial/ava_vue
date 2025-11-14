@@ -8,6 +8,7 @@ import router from './router'
 import vant from './ui/vant'
 //适配
 import "amfe-flexible";
+import i18n from './locals/index.js'
 
 const app = createApp(App)
 
@@ -15,5 +16,6 @@ app.use(createPinia())
 app.use(QrReader);
 app.use(router)
 app.use(vant);
+app.use(i18n);
 
 app.mount('#app')

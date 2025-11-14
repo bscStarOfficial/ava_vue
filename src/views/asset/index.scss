@@ -13,25 +13,35 @@
     height: 32px;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
-    gap: 13px;
-    margin: 15px 0px 21px 0px;
-    img {
-      width: 26px;
-      height: 26px;
+    justify-content: space-between;
+    margin: 15px 0 21px 0;
+    .logoImg {
+      width: 146px;
+      height: 100%;
     }
-    .token {
-      color: #d5e1f6;
-      font-family: 'PingFang', sans-serif;
-      font-weight: 600;
-      font-size: 16px;
-      padding: 5px 10px;
-      border-radius: 16px;
-      border: 1px solid #0F3D5A;
-      background: rgba(36, 41, 54, .8);
-    }
-    :deep(.van-popover__wrapper) {
-      height: 26px;
+    .topRight {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 13px;
+      img {
+        width: 26px;
+        height: 26px;
+      }
+      .token {
+        color: #d5e1f6;
+        font-family: 'PingFang', sans-serif;
+        font-weight: 600;
+        font-size: 16px;
+        padding: 5px 10px;
+        border-radius: 16px;
+        border: 1px solid #0F3D5A;
+        background: rgba(36, 41, 54, .8);
+      }
+      :deep(.van-popover__wrapper) {
+        height: 26px;
+      }
     }
   }
   .asset {
