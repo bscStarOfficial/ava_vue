@@ -88,7 +88,15 @@ const handleRedeem = (id) => {
             {{ item.profit }}
           </template>
           <template v-else-if="header.key === 'action'">
-            <van-button size="small" type="primary" color="#05DAEB" @click="handleRedeem(item.id)">{{item.btnName}}</van-button>
+            <van-button
+              size="small"
+              type="primary"
+              :color="item.btnName === '已结束' ? '#1087A1' : '#05DAEB'"
+              :style="{ color: item.btnName === '已结束' ? '#015059' : '' }"
+              @click="handleRedeem(item.id)"
+            >
+       {{ item.btnName }}
+     </van-button>
           </template>
         </span>
           </div>
