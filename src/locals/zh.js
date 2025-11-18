@@ -25,5 +25,9 @@ export default {
   action: '赎回进展',
   pending: '未到期',
   finished: '赎回',
-  redeemed: '已赎回'
+  redeemed: '已赎回',
+  success: '成功',
+  failed: '失败',
+  numberError: '数量错误',
+  dayError: '天数错误',
 };

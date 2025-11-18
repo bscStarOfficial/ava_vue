@@ -47,12 +47,12 @@ const doStake = async () => {
   if (Number(uAmount.value) <= 0 ||
     Number(uAmount.value) > Number(store.maxStakeAmount)
   ) {
-    showError('输入数量不对');
+    showError(t('numberError'));
     return;
   }
 
   if (Number(stakeIndex.value) < 0) {
-    showError('请选择天数');
+    showError(t('dayError'));
     return;
   }
 
@@ -68,13 +68,13 @@ const doStake = async () => {
 
     await stakeWithInviter(uAmount.value, stakeIndex.value, referrer);
     loading.value = false;
-    showSuccess('增加资产成功');
+    showSuccess(t('success'));
     onCancel();
     emit('staked');
     await store.setState([0, 1, 2, 3, 4, 5, 6, 7, 8]);
   } catch (e) {
     console.log(e)
-    showError('增加资产失败');
+    showError(t('failed'));
     loading.value = false;
   }
 };

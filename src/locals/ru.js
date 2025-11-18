@@ -23,7 +23,11 @@ export default {
   principal: 'Основная',
   profit: 'Прибыль',
   action: 'выкупа',
-  pending: 'Pending',
-  finished: 'Redeem',
-  redeemed: 'Redeemed'
+  pending: 'наступил',
+  finished: 'Погашение',
+  redeemed: 'Погашено',
+  success: 'Успешно',
+  failed: 'Неудача',
+  numberError: 'Ошибка количества',
+  dayError: 'Ошибка в днях'
 };

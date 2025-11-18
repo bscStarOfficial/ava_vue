@@ -23,7 +23,11 @@ export default {
   principal: '元本',
   profit: '利益',
   action: '償還状況',
-  pending: 'Pending',
-  finished: 'Redeem',
-  redeemed: 'Redeemed'
+  pending: '未到来',
+  finished: '償還',
+  redeemed: '償還済み',
+  success: '成功',
+  failed: '失敗',
+  numberError: '数量エラー',
+  dayError: '日数エラー'
 };

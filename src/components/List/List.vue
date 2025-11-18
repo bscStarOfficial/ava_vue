@@ -57,7 +57,7 @@ const doUnStake = async (item) => {
 
     await unStake(item.id);
     item.loading = false;
-    showSuccess('操作成功');
+    showSuccess(t('success'));
 
     // 刷新
     await Promise.all([
@@ -66,7 +66,7 @@ const doUnStake = async (item) => {
     ]);
   } catch (e) {
     console.log(e)
-    showError('操作失败');
+    showError(t('failed'));
     item.loading = false;
   }
 };

@@ -23,7 +23,11 @@ export default {
   principal: '원금',
   profit: '수익',
   action: '상환 진행 상황',
-  pending: 'Pending',
-  finished: 'Redeem',
-  redeemed: 'Redeemed'
+  pending: '미도래',
+  finished: '상환',
+  redeemed: '상환완료',
+  success: '성공',
+  failed: '실패',
+  numberError: '수량 오류',
+  dayError: '일수 오류'
 };

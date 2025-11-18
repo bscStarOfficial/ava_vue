@@ -25,5 +25,9 @@ export default {
   action: 'Progress',
   pending: 'Pending',
   finished: 'Redeem',
-  redeemed: 'Redeemed'
+  redeemed: 'Redeemed',
+  success: 'Success',
+  failed: 'Failed',
+  numberError: 'Quantity Error',
+  dayError: 'Day Error'
 };
