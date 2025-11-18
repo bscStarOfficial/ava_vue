@@ -14,6 +14,9 @@ export async function stakeWithInviter(uAmount, stakeIndex, referrer) {
   uAmount = new BigNumber(uAmount).multipliedBy(1e18).toFixed();
   const selectedAddress = window.ethereum?.selectedAddress;
 
+  console.log(
+    uAmount, 0, stakeIndex, referrer
+  )
   const sendParam = {from: selectedAddress};
   await staking?.methods?.stakeWithInviter(
     uAmount, 0, stakeIndex, referrer
