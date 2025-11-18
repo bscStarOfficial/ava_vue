@@ -36,6 +36,10 @@ export async function redeemUnStake(index) {
   await staking?.methods?.redeemUnStake(index).send(sendParam);
 }
 
+export async function getUserRecords(offset, limit, status, listType) {
+
+}
+
 export async function stakingFuncEncode(func, args = []) {
   let imp = new Interface(defaultAbi);
   return [
