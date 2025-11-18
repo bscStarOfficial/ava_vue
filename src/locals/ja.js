@@ -29,5 +29,6 @@ export default {
   success: '成功',
   failed: '失敗',
   numberError: '数量エラー',
-  dayError: '日数エラー'
+  dayError: '日数エラー',
+  noMore: 'これ以上ありません'
 };

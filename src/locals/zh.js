@@ -30,4 +30,5 @@ export default {
   failed: '失败',
   numberError: '数量错误',
   dayError: '天数错误',
+  noMore: '没有更多了'
 };

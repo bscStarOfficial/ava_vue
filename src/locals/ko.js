@@ -29,5 +29,6 @@ export default {
   success: '성공',
   failed: '실패',
   numberError: '수량 오류',
-  dayError: '일수 오류'
+  dayError: '일수 오류',
+  noMore: '더 이상 없습니다'
 };

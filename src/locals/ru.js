@@ -29,5 +29,6 @@ export default {
   success: 'Успешно',
   failed: 'Неудача',
   numberError: 'Ошибка количества',
-  dayError: 'Ошибка в днях'
+  dayError: 'Ошибка в днях',
+  noMore: 'Больше нет'
 };

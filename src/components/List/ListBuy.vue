@@ -111,7 +111,7 @@ defineExpose({
   <div class="table-content">
     <van-list
       :finished="finished"
-      :finished-text="list.length === 0? '没有更多了':''"
+      :finished-text="list.length === 0? $t('noMore'):''"
     >
       <van-cell
         v-for="(item, index) in list"

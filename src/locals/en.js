@@ -29,5 +29,6 @@ export default {
   success: 'Success',
   failed: 'Failed',
   numberError: 'Quantity Error',
-  dayError: 'Day Error'
+  dayError: 'Day Error',
+  noMore: 'No more',
 };
