@@ -76,7 +76,10 @@ export function stakingFuncDecode(func, result, decimal = 18) {
     func === 'getTeamKpi'
   ) {
     return new BigNumber(res[0]).dividedBy(1e18).toFixed(decimal, 1)
-  } else if (func === 'stakeDays') {
+  } else if (
+    func === 'stakeDays' ||
+    func === 'unStakeDay')
+  {
     return new BigNumber(res[0]).toNumber();
   }
   return res[0];

@@ -62,6 +62,9 @@ export const useStakingStore = defineStore('staking', {
           case 9:
             this.isBuyUnStake = stakingFuncDecode('isBuyUnStake', data);
             break;
+          case 10:
+            this.unStakeDay = stakingFuncDecode('unStakeDay', data);
+            break;
         }
       })
     },
