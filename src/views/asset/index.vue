@@ -48,18 +48,24 @@ const handleAddAsset = (data) => {
 
 // 语言切换
 const i18n = useI18n()
-const languageOptions =  [
-  { text: 'English', value: 'en' },
-  { text: '简体中文', value: 'zh' },
-  { text: '日本語', value: 'ja' },
-  { text: '한국어', value: 'ko' },
-  { text: 'РОССИЯ', value: 'ru' }
+let languageOptions =  [
+  { text: 'English', value: 'en', disabled: i18n.locale.value === 'en' },
+  { text: '简体中文', value: 'zh', disabled: i18n.locale.value === 'zh' },
+  { text: '日本語', value: 'ja', disabled: i18n.locale.value === 'ja' },
+  { text: '한국어', value: 'ko', disabled: i18n.locale.value === 'ko' },
+  { text: 'РОССИЯ', value: 'ru', disabled: i18n.locale.value === 'ru' }
 ]
 const showLanguage = ref(false);
 const onSelectLanguage = (action) => {
   console.log('选择了语言', action);
   localStorage.setItem('lang', action.value);
   i18n.locale.value = action.value;
+
+  languageOptions.forEach((item) => {
+    item.disabled = i18n.locale.value === item.value;
+  })
+
+  showLanguage.value = !showLanguage.value;
 };
 
 // 显示警告框
