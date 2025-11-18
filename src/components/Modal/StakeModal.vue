@@ -22,7 +22,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['cancel', 'confirm']);
+const emit = defineEmits(['cancel', 'confirm', 'staked']);
 
 // 输入框值
 const uAmount = ref('');

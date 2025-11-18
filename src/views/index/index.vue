@@ -18,6 +18,7 @@ const store = useStakingStore();
 
 const inviteModalShow = ref(false);
 const stakingModalShow = ref(false);
+const list0 = ref();
 
 // 语言切换
 const i18n = useI18n()
@@ -148,7 +149,7 @@ function showModal() {
                 title-active-color="#03EDFF"
       >
         <van-tab :title="$t('tab1')">
-          <List :status="0" :listType="0"/>
+          <List ref="list0" :status="0" :listType="0"/>
         </van-tab>
         <van-tab :title="$t('tab2')">
           <List :status="1" :listType="0"/>
@@ -173,6 +174,9 @@ function showModal() {
       }"
       @cancel="() => {
         stakingModalShow = false;
+      }"
+      @staked="() => {
+        list0.value.getList();
       }"
     />
     <Alert/>
