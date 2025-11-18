@@ -90,7 +90,7 @@ const getList = async () => {
 function getButtonKey(item) {
   if (item.status) return 'redeemed';
 
-  let endTime = new BigNumber(item.stakeTime).plus(86400);
+  let endTime = new BigNumber(item.stakeTime).plus(store.unStakeDay);
   if (endTime.lt(nowTimestamp())) return 'finished';
   else return 'pending'
 }

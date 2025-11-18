@@ -16,6 +16,7 @@ export const useStakingStore = defineStore('staking', {
       86400 * 15,
       86400 * 30,
     ],
+    unStakeDay: 86400,
     referrer: '0x0000000000000000000000000000000000000000',
     maxStakeAmount: 0,
     balance: 0,
