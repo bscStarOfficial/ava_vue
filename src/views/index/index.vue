@@ -6,8 +6,6 @@ import StakeModal from '@/components/Modal/StakeModal.vue';
 import Alert from '@/components/Alert/Alert.vue';
 import NumberFlow from '@number-flow/vue'
 // 显示警告框
-import errorIcon from '@/assets/svg/error.svg'
-import successIcon from '@/assets/svg/success.svg'
 import {useI18n} from "vue-i18n";
 import {useStakingStore} from "@/stores/staking";
 import {replaceMiddleWithAsterisks} from "@/js/utils";
@@ -52,7 +50,8 @@ const onSelectLanguage = (action) => {
 
   showLanguage.value = !showLanguage.value;
 };
-const setAlertMsg = inject("setAlertMsg")
+const showError = inject("showError");
+const showSuccess = inject("showSuccess");
 
 // 推荐人
 const referrer = ref();
@@ -81,26 +80,10 @@ async function init() {
   ]);
 }
 
-function showError(content, callback) {
-  setAlertMsg({
-    title: 'error',
-    content: content,
-    icon: errorIcon,
-    show: true,
-    callback: callback || (() => {
-    })
-  })
-}
 
-function showSuccess(content, callback) {
-  setAlertMsg({
-    title: 'success',
-    content: content,
-    icon: successIcon,
-    show: true,
-    callback: callback || (() => {
-    })
-  })
+function showModal() {
+  if (!store.registered) inviteModalShow.value = true;
+  else stakingModalShow.value = true;
 }
 
 </script>
@@ -136,7 +119,7 @@ function showSuccess(content, callback) {
         <NumberFlow :value="store.balance" :format="{maximumFractionDigits: 20}"/>
         <span>Token</span>
       </div>
-      <div class="asset-btn" @click="inviteModalShow = true">
+      <div class="asset-btn" @click="showModal()">
         <img src="@/assets/imgs/add.png" alt="" style="width: 16px; height: 16px;">
         {{ $t('title') }}
       </div>

@@ -45,7 +45,7 @@ export async function stakingFuncEncode(func, args = []) {
   ]
 }
 
-export function stakingFuncDecode(func, result) {
+export function stakingFuncDecode(func, result, decimal = 18) {
   let imp = new Interface(defaultAbi);
   let res = imp.decodeFunctionResult(func, result);
   if (
@@ -54,7 +54,7 @@ export function stakingFuncDecode(func, result) {
     func === 'caclItem' ||
     func === 'getTeamKpi'
   ) {
-    return new BigNumber(res[0]).dividedBy(1e18).toFixed(2)
+    return new BigNumber(res[0]).dividedBy(1e18).toFixed(decimal, 1)
   } else if (func === 'stakeDays') {
     return new BigNumber(res[0]).toNumber();
   }

@@ -1,11 +1,18 @@
 <!-- src/components/PopupModal.vue -->
 <script setup>
-import {ref, computed, watch} from 'vue';
+import {ref, computed, watch, inject} from 'vue';
 import {useStakingStore} from "@/stores/staking";
+import {useI18n} from "vue-i18n";
+import {getAddress} from "@/js/config";
+import {stakeWithInviter} from "@/js/contracts/staking";
+import {useRoute} from "vue-router";
+import {approve} from "@/js/contracts/erc20s";
 
 const store = useStakingStore();
-import {useI18n} from "vue-i18n";
+const route = useRoute();
 const {t} = useI18n();
+const showError = inject("showError");
+const showSuccess = inject("showSuccess");
 
 const props = defineProps({
   // 是否显示弹窗
@@ -22,6 +29,7 @@ const uAmount = ref('');
 const stakeIndex = ref(-1);
 const showPopover = ref(false);
 const showDropdown = ref(true);
+const loading = ref(false);
 
 const options = [
   {text: t('option1')},
@@ -35,17 +43,39 @@ const onCancel = () => {
 };
 
 // 点击确定按钮
-const onConfirm = () => {
-  emit('confirm', {
-    uAmount: uAmount.value,
-    stakeIndex: stakeIndex.value
-  });
-  onCancel();
-};
+const doStake = async () => {
+  if (Number(uAmount.value) <= 0 ||
+    Number(uAmount.value) > Number(store.maxStakeAmount)
+  ) {
+    showError('输入数量不对');
+    return;
+  }
 
-// 输入框变化
-const onInputChange = (e) => {
-  emit('input-change', e);
+  if (Number(stakeIndex.value) < 0) {
+    showError('请选择天数');
+    return;
+  }
+
+  if (loading.value) return;
+  loading.value = true;
+
+  try {
+    let referrer = await getReferrer();
+    if (uAmount.value > store.usdt.allowance) {
+      let stakingAddr = await getAddress('staking');
+      await approve('usdt', stakingAddr, '1000000000000000000000000');
+    }
+
+    await stakeWithInviter(uAmount.value, stakeIndex.value, referrer);
+    loading.value = false;
+    showSuccess('增加资产成功');
+    onCancel();
+    await store.setState([0, 1, 2, 3, 4, 5, 6, 7, 8]);
+  } catch (e) {
+    console.log(e)
+    showError('增加资产失败');
+    loading.value = false;
+  }
 };
 
 // 下拉选择变化
@@ -57,6 +87,16 @@ const onSelect = (action) => {
     }
   })
 };
+
+async function getReferrer() {
+  if (store.referrer !== '0x0000000000000000000000000000000000000000')
+    return store.referrer;
+  else if (route.query?.ref) {
+    return route.query?.ref;
+  } else {
+    return await getAddress('rootAddress')
+  }
+}
 
 </script>
 
@@ -96,7 +136,11 @@ const onSelect = (action) => {
       <!-- 按钮组 -->
       <div class="button-group">
         <button class="btn-cancel" @click="onCancel">{{ $t('cancel') }}</button>
-        <button class="btn-confirm" @click="onConfirm">{{ $t('confirm') }}</button>
+        <button class="btn-confirm" @click="doStake()">{{ $t('confirm') }}</button>
+      </div>
+
+      <div class="popup-overlay" v-if="loading">
+        <van-loading color="#1989fa"/>
       </div>
     </div>
   </div>

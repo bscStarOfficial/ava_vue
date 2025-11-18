@@ -35,13 +35,13 @@ export const useStakingStore = defineStore('staking', {
             this.referrer = referralFuncDecode('getReferral', data);
             break;
           case 1:
-            this.maxStakeAmount = stakingFuncDecode('maxStakeAmount', data)
+            this.maxStakeAmount = stakingFuncDecode('maxStakeAmount', data, 2)
             break
           case 2:
-            this.balance = stakingFuncDecode('balanceOf', data);
+            this.balance = stakingFuncDecode('balanceOf', data, 12);
             break;
           case 3:
-            this.teamKpi = stakingFuncDecode('getTeamKpi', data);
+            this.teamKpi = stakingFuncDecode('getTeamKpi', data, 4);
             break;
           case 4:
             this.usdt.balance = balanceOfDecode(data);
