@@ -28,6 +28,7 @@
       img {
         width: 26px;
         height: 26px;
+        vertical-align: middle;
       }
       .token {
         color: #d5e1f6;
@@ -41,6 +42,8 @@
       }
       :deep(.van-popover__wrapper) {
         height: 26px;
+        line-height: 26px;
+        padding-bottom: 5px;
       }
     }
   }
