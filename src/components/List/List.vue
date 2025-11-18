@@ -86,7 +86,7 @@ function updateList() {
 }
 
 const it = ref(0);
-async function getList() {
+const getList = async () => {
   if (it.value > 0) clearInterval(it.value);
 
   let records = await getUserRecords(0, 100, props.status, props.listType);
@@ -135,6 +135,11 @@ function getButtonKey(item) {
   if (endTime.lt(nowTimestamp())) return 'finished';
   else return 'pending'
 }
+
+
+defineExpose({
+  getList,
+});
 
 </script>
 
