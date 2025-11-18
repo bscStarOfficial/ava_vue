@@ -1,16 +1,22 @@
 <script setup>
-import {ref, watch} from 'vue';
+import {onMounted, ref, watch} from 'vue';
 import {useI18n} from "vue-i18n";
+import {getUserRecords} from "@/js/contracts/staking";
+import {nowTimestamp, timestampFormat, timestampFormat2} from "@/js/time";
+import {div18, toFixed} from "@/js/utils";
+import BigNumber from "bignumber.js";
+import {useStakingStore} from "@/stores/staking";
 
 // 表头配置项
-const { t, locale } = useI18n()
+const {t, locale} = useI18n()
+const store = useStakingStore();
 
 const getHeaders = () => [
-  { key: 'index', label: t('index'), flex: 1 },
-  { key: 'date', label: t('date'), flex: 3 },
-  { key: 'principal', label: t('principal'), flex: 1 },
-  { key: 'profit', label: t('profit'), flex: 1 },
-  { key: 'action', label: t('action'), flex: 2 }
+  {key: 'index', label: t('index'), flex: 1},
+  {key: 'date', label: t('date'), flex: 2},
+  {key: 'principal', label: t('principal'), flex: 1},
+  {key: 'profit', label: t('profit'), flex: 1},
+  {key: 'action', label: t('action'), flex: 2}
 ];
 const headers = ref(getHeaders());
 watch(locale, () => {
@@ -18,43 +24,73 @@ watch(locale, () => {
 });
 
 const props = defineProps({
-  data: {
-    type: Array,
-    default: () => []
+  status: {
+    type: Number,
+    default: 0
+  },
+  listType: {
+    type: Number,
+    default: 0
   }
 });
 
-// 创建响应式副本，避免直接修改 props
-const localData = ref([...props.data]);
-
+const list = ref([]);
 const loading = ref(false);
-const finished = ref(false);
+const finished = ref(true);
 
-// 监听 props.data 变化，同步到 localData
-watch(() => props.data, (newVal) => {
-  localData.value = [...newVal];
+const onLoad = () => {};
+
+const handleRedeem = (item) => {
+  if (item.buttonKey !== 'finished') return;
+};
+
+onMounted(async () => {
+  await getList();
 });
 
-const onLoad = () => {
-  setTimeout(() => {
-    for (let i = 0; i < 10; i++) {
-      localData.value.push({
-        id: localData.value.length + 1,
-        date: '25.11.08 10:38\n01:42',
-        principal: 1,
-        profit: '1.0033'
-      });
-    }
-    loading.value = false;
-    if (localData.value.length >= 40) {
-      finished.value = true;
-    }
-  }, 1000);
-};
+async function getList() {
+  let records = await getUserRecords(0, 100, props.status, props.listType);
+  records.forEach((item) => {
+    // 盈利数据
+    item.profit = getProfit(item);
+    item.buttonKey = getButtonKey(item);
+  })
+  console.log(records);
+  list.value = records;
+}
 
-const handleRedeem = (id) => {
-  console.log('赎回操作:', id);
-};
+function getProfit(item) {
+  // 购买赎回没有利息
+  if (props.listType === 1) return 0;
+
+  let time = !item.status ? nowTimestamp() : item.unStakeTime;
+  time = new BigNumber(time);
+
+  let maxTime = new BigNumber(item.stakeTime).plus(86400 * 30);
+  if (time.gt(maxTime)) time = maxTime;
+
+  let rate = [0.003, 0.006, 0.012][item.stakeIndex];
+  return time.minus(item.stakeTime)
+    .multipliedBy(item.amount)
+    .dividedBy(1e18)
+    .dividedBy(86400)
+    .multipliedBy(rate)
+    .toFixed(4);
+}
+
+function getButtonKey(item) {
+  if (item.status) return 'redeemed';
+
+  let endTime;
+  if (props.listType === 1) {
+    endTime = new BigNumber(item.stakeTme).plus(86400);
+  } else {
+    endTime = new BigNumber(item.stakeTme).plus(store.stakeDays[item.stakeIndex]);
+  }
+  if (endTime.gt(nowTimestamp())) return 'finished';
+  else return 'pending'
+}
+
 </script>
 
 <template>
@@ -71,7 +107,7 @@ const handleRedeem = (id) => {
       @load="onLoad"
     >
       <van-cell
-        v-for="(item, index) in localData"
+        v-for="(item, index) in list"
         :key="index"
         center
       >
@@ -80,16 +116,17 @@ const handleRedeem = (id) => {
         <span v-for="header in headers" :key="header.key" class="cell-item" :style="{ flex: header.flex || 1 }">
           <!-- 动态渲染对应字段 -->
           <template v-if="header.key === 'index'">
-            {{ index + 1 }}
+            {{ item.id }}
           </template>
           <template v-else-if="header.key === 'date'">
-            <div class="datetime-container">
-              <div>{{ item.date }}</div>
-              <div>{{ item.time }}</div>
-            </div>
+<!--            <div class="datetime-container">-->
+<!--              <div>{{ timestampFormat(item.stakeTime) }}</div>-->
+<!--              <div>1111</div>-->
+<!--            </div>-->
+            {{ timestampFormat(item.stakeTime) }}
           </template>
           <template v-else-if="header.key === 'principal'">
-            {{ item.principal }}
+            {{ div18(item.amount, 2) }}
           </template>
           <template v-else-if="header.key === 'profit'">
             {{ item.profit }}
@@ -98,12 +135,10 @@ const handleRedeem = (id) => {
             <van-button
               size="small"
               type="primary"
-              :color="item.btnName === '已结束' ? '#1087A1' : '#05DAEB'"
-              :style="{ color: item.btnName === '已结束' ? '#015059' : '' }"
-              @click="handleRedeem(item.id)"
-            >
-       {{ item.btnName }}
-     </van-button>
+              :color="item.status ? '#1087A1' : '#05DAEB'"
+              :style="{ color: item.status ? '#015059' : '' }"
+              @click="handleRedeem(item)"
+            >{{ $t(item.buttonKey) }}</van-button>
           </template>
         </span>
           </div>
