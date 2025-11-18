@@ -68,12 +68,10 @@ const onSelectLanguage = (action) => {
 
   showLanguage.value = !showLanguage.value;
 };
-
 const setAlertMsg = inject("setAlertMsg")
 
 // 推荐人
 const referrer = ref();
-
 // 复制推荐人链接
 async function copyLink() {
   let text = getHost();
@@ -171,11 +169,12 @@ function showSuccess(content, callback) {
       <div class="asset-info">
         <div class="row">
           <div class="row-label">{{ $t('performance') }}</div>
-          <div class="row-value">0 Token</div>
+          <div class="row-value">{{ store.teamKpi }} Token</div>
         </div>
         <div class="row">
           <div class="row-label">{{ $t('link') }}</div>
-          <div class="row-value" @click="copyLink()">
+          <div class="row-value" v-if="!store.registered">--&nbsp;</div>
+          <div class="row-value" v-else @click="copyLink()">
             {{ replaceMiddleWithAsterisks(getSelectedAddress()) }}
             <img src="@/assets/svg/copy.svg" alt="" style="width: 16px; height: 16px;">
           </div>
@@ -200,10 +199,10 @@ function showSuccess(content, callback) {
                 title-active-color="#03EDFF"
       >
         <van-tab :title="$t('tab1')">
-          <List :data="investmentData" class="tab-content"/>
+          <List :data="investmentData" />
         </van-tab>
         <van-tab :title="$t('tab2')">
-          <List :data="redeemList" class="tab-content"/>
+          <List :data="redeemList" />
         </van-tab>
       </van-tabs>
     </div>

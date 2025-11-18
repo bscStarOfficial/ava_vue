@@ -22,7 +22,9 @@ export const useStakingStore = defineStore('staking', {
     teamKpi: 0,
   }),
   getters: {
-
+    registered(state) {
+      return state.referrer !== '0x0000000000000000000000000000000000000000'
+    },
   },
   actions: {
     async setState(callIds = []) {
