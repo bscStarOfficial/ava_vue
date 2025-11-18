@@ -2,12 +2,15 @@
 import { RouterLink, RouterView } from 'vue-router'
 import {provide, reactive, ref} from "vue";
 import Alert from '@/components/Alert/Alert.vue';
+import errorIcon from "@/assets/svg/error.svg";
+import successIcon from "@/assets/svg/success.svg";
 // 弹框信息
 let alertMsg = reactive({
   show: false, title: '', content: '', callback: () => {}
 });
 provide("alertMsg", alertMsg);
-provide("setAlertMsg", ({show, title, icon, content, callback}) => {
+
+const setAlertMsg = ({show, title, icon, content, callback}) => {
   alertMsg.show = show;
   alertMsg.title = title;
   alertMsg.icon = icon
@@ -18,8 +21,33 @@ provide("setAlertMsg", ({show, title, icon, content, callback}) => {
   setTimeout(() => {
     alertMsg.show = false;
   }, 2000)
+}
 
-});
+function showError(content, callback) {
+  setAlertMsg({
+    title: 'error',
+    content: content,
+    icon: errorIcon,
+    show: true,
+    callback: callback || (() => {
+    })
+  })
+}
+
+function showSuccess(content, callback) {
+  setAlertMsg({
+    title: 'success',
+    content: content,
+    icon: successIcon,
+    show: true,
+    callback: callback || (() => {
+    })
+  })
+}
+
+provide("setAlertMsg", setAlertMsg);
+provide("showSuccess", showSuccess);
+provide("showError", showError);
 
 </script>
 
