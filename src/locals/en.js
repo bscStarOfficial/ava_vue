@@ -4,7 +4,7 @@ export default {
   performance: 'Performance',
   link: 'Link',
   rule: 'AVA Market Maker Investment Plan',
-  tip: 'After donating to the pool, automatic compound interest of up to 1.2% daily based on donation amount, up to 30 yuan per donation.',
+  tip: 'After donating to the pool, automatic compound interest of up to 1.2% daily based on donation amount, up to 30 days per donation.',
   tab1: 'Investment List',
   tab2: 'Redemption List',
   tab3: 'Buy List',
