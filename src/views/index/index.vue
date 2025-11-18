@@ -1,7 +1,8 @@
 <script setup>
 import {inject, onMounted, ref} from "vue";
 import List from '@/components/List/List.vue';
-import Modal from '@/components/Modal/Modal.vue';
+import InviteModal from '@/components/Modal/InviteModal.vue';
+import StakeModal from '@/components/Modal/StakeModal.vue';
 import Alert from '@/components/Alert/Alert.vue';
 import NumberFlow from '@number-flow/vue'
 // 显示警告框
@@ -9,16 +10,13 @@ import errorIcon from '@/assets/svg/error.svg'
 import successIcon from '@/assets/svg/success.svg'
 import {useI18n} from "vue-i18n";
 import {useStakingStore} from "@/stores/staking";
-import {useRoute} from 'vue-router';
 import {replaceMiddleWithAsterisks} from "@/js/utils";
 import {getSelectedAddress} from "@/js/web3";
-import {getAddress} from "@/js/config";
 import {copyText} from 'vue3-clipboard'
 import {getHost} from "@/js/url";
 
 const active = ref('投资列表')
 const store = useStakingStore();
-const route = useRoute();
 
 // 投资列表数据
 const investmentData = ref([
@@ -31,21 +29,7 @@ const redeemList = ref([
 ]);
 
 const inviteModalShow = ref(false);
-
-const handleInviteConfirm = (data) => {
-  console.log('确认邀请人:', data.inputValue);
-  handleErrorClick()
-};
-
-// 新增的数据和方法
-const addAssetModalShow = ref(false);
-const selectedDays = ref('');
-
-const handleAddAsset = (data) => {
-  console.log('增加资产金额:', data.inputValue);
-  console.log('选择的投资期限:', selectedDays.value);
-  handleSuccessClick()
-};
+const stakingModalShow = ref(false);
 
 // 语言切换
 const i18n = useI18n()
@@ -72,6 +56,7 @@ const setAlertMsg = inject("setAlertMsg")
 
 // 推荐人
 const referrer = ref();
+
 // 复制推荐人链接
 async function copyLink() {
   let text = getHost();
@@ -94,17 +79,6 @@ async function init() {
   let res = await Promise.all([
     store.setState([0, 1, 2, 3, 4, 5, 6, 7, 8]),
   ]);
-  await setReferrer();
-}
-
-async function setReferrer() {
-  if (store.referrer !== '0x0000000000000000000000000000000000000000')
-    referrer.value = store.referrer;
-  else if (route.query?.ref) {
-    referrer.value = route.query?.ref;
-  } else {
-    referrer.value = await getAddress('rootAddress')
-  }
 }
 
 function showError(content, callback) {
@@ -148,21 +122,21 @@ function showSuccess(content, callback) {
             <img src="@/assets/svg/earth.svg" alt="" class="earthImg">
           </template>
         </van-popover>
-        <div class="token" @click="inviteModalShow = true">{{ replaceMiddleWithAsterisks(getSelectedAddress()) }}</div>
+        <div class="token">{{ replaceMiddleWithAsterisks(getSelectedAddress()) }}</div>
       </div>
     </div>
     <!--我的当前资产-->
     <div class="asset">
       <div class="asset-top">
         <img src="@/assets/svg/vector_left.svg" alt="" style="width: 104px; height: 17px;">
-        <div class="asset-title" @click="addAssetModalShow = true">{{ $t('asset') }}</div>
+        <div class="asset-title">{{ $t('asset') }}</div>
         <img src="@/assets/svg/vector_right.svg" alt="" style="width: 104px; height: 17px;">
       </div>
       <div class="asset-token">
         <NumberFlow :value="store.balance" :format="{maximumFractionDigits: 20}"/>
         <span>Token</span>
       </div>
-      <div class="asset-btn" @updateAsset="updateAsset(2424244)">
+      <div class="asset-btn" @click="inviteModalShow = true">
         <img src="@/assets/imgs/add.png" alt="" style="width: 16px; height: 16px;">
         {{ $t('title') }}
       </div>
@@ -199,33 +173,32 @@ function showSuccess(content, callback) {
                 title-active-color="#03EDFF"
       >
         <van-tab :title="$t('tab1')">
-          <List :data="investmentData" />
+          <List :data="investmentData"/>
         </van-tab>
         <van-tab :title="$t('tab2')">
-          <List :data="redeemList" />
+          <List :data="redeemList"/>
         </van-tab>
       </van-tabs>
     </div>
-    <Modal
+    <InviteModal
       v-model:show="inviteModalShow"
-      :title="$t('confirmInviter')"
-      :show-input="true"
-      :input-placeholder="$t('address')"
-      :max-amount="null"
-      :show-dropdown="false"
-      @confirm="handleInviteConfirm"
+      :input-value="referrer"
+      @confirm="v => {
+        referrer = v.referrer;
+        stakingModalShow = true;
+      }"
+      @cancel="() => {
+        inviteModalShow = false
+      }"
     />
-    <Modal
-      v-model:show="addAssetModalShow"
-      :title="$t('addAsset')"
-      :show-input="true"
-      :input-placeholder="$t('inputIncreaseAmount')"
-      :max-amount="1000"
-      :show-dropdown="true"
-      :dropdown-options="[{ text: $t('option1') }, { text: $t('option1') }, { text: $t('option1') },]"
-      :selected-option="selectedDays"
-      @confirm="handleAddAsset"
-      @dropdown-change="selectedDays = $event"
+    <StakeModal
+      v-model:show="stakingModalShow"
+      @confirm="(v) => {
+        console.log('StakeModal', v);
+      }"
+      @cancel="() => {
+        stakingModalShow = false;
+      }"
     />
     <Alert/>
 
