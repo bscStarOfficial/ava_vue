@@ -644,6 +644,19 @@ export default [
   {
     "inputs": [
       {
+        "internalType": "uint40",
+        "name": "_unStakeDay",
+        "type": "uint40"
+      }
+    ],
+    "name": "setUnStakeDay",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "uint256",
         "name": "_unStakeFee",
         "type": "uint256"
@@ -894,6 +907,19 @@ export default [
       }
     ],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "unStakeDay",
+    "outputs": [
+      {
+        "internalType": "uint40",
+        "name": "",
+        "type": "uint40"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
