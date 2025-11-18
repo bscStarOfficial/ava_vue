@@ -20,6 +20,22 @@ export async function stakeWithInviter(uAmount, stakeIndex, referrer) {
   ).send(sendParam);
 }
 
+export async function unStake(index) {
+  let staking = await getDefaultContract();
+  const selectedAddress = window.ethereum?.selectedAddress;
+
+  const sendParam = {from: selectedAddress};
+  await staking?.methods?.unStake(index).send(sendParam);
+}
+
+export async function redeemUnStake(index) {
+  let staking = await getDefaultContract();
+  const selectedAddress = window.ethereum?.selectedAddress;
+
+  const sendParam = {from: selectedAddress};
+  await staking?.methods?.redeemUnStake(index).send(sendParam);
+}
+
 export async function stakingFuncEncode(func, args = []) {
   let imp = new Interface(defaultAbi);
   return [
