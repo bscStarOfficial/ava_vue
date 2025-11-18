@@ -21,5 +21,8 @@ export default {
   date: 'Date',
   principal: 'Capital',
   profit: 'Gain',
-  action: 'Progress'
+  action: 'Progress',
+  pending: 'Pending',
+  finished: 'Redeem',
+  redeemed: 'Redeemed'
 };

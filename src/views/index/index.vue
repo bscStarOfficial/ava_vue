@@ -16,16 +16,6 @@ import {getHost} from "@/js/url";
 const active = ref('投资列表')
 const store = useStakingStore();
 
-// 投资列表数据
-const investmentData = ref([
-  {id: 1, date: '25.11.08 10:38', time: '01:42', principal: 1, profit: '1.0033', btnName: '赎回'},
-]);
-
-// 赎回列表数据
-const redeemList = ref([
-  {id: 1, date: '25.11.08 10:38', time: '01:42', principal: 1, profit: '1.0033', btnName: '已结束'},
-]);
-
 const inviteModalShow = ref(false);
 const stakingModalShow = ref(false);
 
@@ -156,10 +146,10 @@ function showModal() {
                 title-active-color="#03EDFF"
       >
         <van-tab :title="$t('tab1')">
-          <List :data="investmentData"/>
+          <List :status="0" :listType="0"/>
         </van-tab>
         <van-tab :title="$t('tab2')">
-          <List :data="redeemList"/>
+          <List :status="1" :listType="0"/>
         </van-tab>
       </van-tabs>
     </div>

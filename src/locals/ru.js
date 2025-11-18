@@ -21,5 +21,8 @@ export default {
   date: 'Дата',
   principal: 'Основная',
   profit: 'Прибыль',
-  action: 'выкупа'
+  action: 'выкупа',
+  pending: 'Pending',
+  finished: 'Redeem',
+  redeemed: 'Redeemed'
 };

@@ -22,8 +22,10 @@ export function toFixed(amount, n) {
   return new BigNumber(amount).toFixed(n);
 }
 
-export function div18(amount, number = 1e18) {
-  return new BigNumber(amount).dividedBy(number).toFixed(0);
+export function div18(amount, decimals) {
+  let res = new BigNumber(amount).dividedBy(1e18)
+    .toFixed(decimals, 1);
+  return Number(res);
 }
 
 export function replaceMiddleWithAsterisks(inputString) {
@@ -33,15 +35,3 @@ export function replaceMiddleWithAsterisks(inputString) {
   return firstFiveCharacters + "****" + lastFiveCharacters
 }
 
-export function replaceMiddleWithAsterisks2(inputString) {
-  if (inputString == "") return ""
-  const firstFiveCharacters = inputString.substring(0, 10);
-  const lastFiveCharacters = inputString.substring(inputString.length - 9);
-  return firstFiveCharacters + "****" + lastFiveCharacters
-}
-
-export function replaceMiddleWithAsterisks3(inputString) {
-  if (inputString == "") return ""
-  const firstFiveCharacters = inputString.substring(0, 7);
-  return firstFiveCharacters + "****"
-}

@@ -21,5 +21,8 @@ export default {
   date: '날짜',
   principal: '원금',
   profit: '수익',
-  action: '상환 진행 상황'
+  action: '상환 진행 상황',
+  pending: 'Pending',
+  finished: 'Redeem',
+  redeemed: 'Redeemed'
 };

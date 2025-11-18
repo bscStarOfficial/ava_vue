@@ -21,5 +21,8 @@ export default {
   date: '日期',
   principal: '本金',
   profit: '盈利',
-  action: '赎回进展'
+  action: '赎回进展',
+  pending: '未到期',
+  finished: '赎回',
+  redeemed: '已赎回'
 };

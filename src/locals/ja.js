@@ -21,5 +21,8 @@ export default {
   date: '日付',
   principal: '元本',
   profit: '利益',
-  action: '償還状況'
+  action: '償還状況',
+  pending: 'Pending',
+  finished: 'Redeem',
+  redeemed: 'Redeemed'
 };
