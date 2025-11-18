@@ -1,7 +1,7 @@
 .content {
   width: 345px;
   height: 100vh;
-  background: linear-gradient(to bottom, #2942D2 0%, #3187D0 276px, #09072E 276px, #09072E 100%);
+  background: linear-gradient(to bottom, #2942D2 0%, #3187D0 236px, #09072E 236px, #09072E 100%);
   display: flex;
   justify-content: center;
   align-content: flex-start;
@@ -58,7 +58,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 24px;
+    margin-bottom: 10px;
     .asset-top {
       width: 100%;
       display: flex;
