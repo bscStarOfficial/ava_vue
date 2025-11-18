@@ -3,7 +3,7 @@ export default {
   title: '寄付',
   performance: '業績',
   link: 'リンク',
-  rule: 'I LAFマーケットメーカー投資規則',
+  rule: 'I AVAマーケットメーカー投資規則',
   tip: 'プールに寄付後、寄付額に応じて1日最大1.2%の自動複利、1回あたり最大30元。',
   tab1: '投資リスト',
   tab2: '償還リスト',

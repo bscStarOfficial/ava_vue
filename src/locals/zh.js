@@ -3,7 +3,7 @@ export default {
   title: '捐赠底池',
   performance: '业绩',
   link: '链接',
-  rule: 'I LAF做市商投资规则',
+  rule: 'I AVA做市商投资规则',
   tip: '捐赠底池后按捐赠额，每日最高1.2%自动复利，每次最高30元。',
   tab1: '投资列表',
   tab2: '赎回列表',

@@ -133,7 +133,7 @@ function showModal() {
         </div>
       </div>
     </div>
-    <!-- I LAF做市商投资规则-->
+    <!-- I AVA做市商投资规则-->
     <div class="rule">
       <div class="rule-left">
         <div class="left-title">{{ $t('rule') }}</div>

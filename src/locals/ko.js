@@ -3,7 +3,7 @@ export default {
   title: '풀에 기부',
   performance: '실적',
   link: '링크',
-  rule: 'I LAF 마켓 메이커 투자 규칙',
+  rule: 'I AVA 마켓 메이커 투자 규칙',
   tip: '풀에 기부 후 기부 금액에 따라 일일 최대 1.2% 자동 복리, 1회당 최대 30위안.',
   tab1: '투자 목록',
   tab2: '상환 목록',
