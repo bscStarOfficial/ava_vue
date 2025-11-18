@@ -15,6 +15,10 @@ provide("setAlertMsg", ({show, title, icon, content, callback}) => {
   if (callback) {
     alertMsg.callback = callback;
   }
+  setTimeout(() => {
+    alertMsg.show = false;
+  }, 2000)
+
 });
 
 </script>

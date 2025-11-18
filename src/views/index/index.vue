@@ -1,31 +1,33 @@
 <script setup>
-import {inject, ref} from "vue";
+import {inject, onMounted, ref} from "vue";
 import List from '@/components/List/List.vue';
 import Modal from '@/components/Modal/Modal.vue';
 import Alert from '@/components/Alert/Alert.vue';
 import NumberFlow from '@number-flow/vue'
+// 显示警告框
+import errorIcon from '@/assets/svg/error.svg'
+import successIcon from '@/assets/svg/success.svg'
+import {useI18n} from "vue-i18n";
+import {useStakingStore} from "@/stores/staking";
+import {useRoute} from 'vue-router';
+import {replaceMiddleWithAsterisks} from "@/js/utils";
+import {getSelectedAddress} from "@/js/web3";
+import {getAddress} from "@/js/config";
+import {copyText} from 'vue3-clipboard'
+import {getHost} from "@/js/url";
 
 const active = ref('投资列表')
+const store = useStakingStore();
+const route = useRoute();
 
 // 投资列表数据
 const investmentData = ref([
-  { id: 1, date: '25.11.08 10:38', time: '01:42', principal: 1, profit: '1.0033', btnName: '赎回' },
-  { id: 2, date: '25.11.08 10:38', time: '01:42', principal: 1, profit: '1.0033', btnName: '赎回' },
-  { id: 3, date: '25.11.08 10:38', time: '01:42', principal: 1, profit: '1.0033', btnName: '赎回' },
-  { id: 4, date: '25.11.08 10:38', time: '01:42', principal: 1, profit: '1.0033', btnName: '赎回' },
-  { id: 5, date: '25.11.08 10:38', time: '01:42', principal: 1, profit: '1.0033', btnName: '赎回' },
-  { id: 6, date: '25.11.08 10:38', time: '01:42', principal: 1, profit: '1.0033', btnName: '赎回' }
+  {id: 1, date: '25.11.08 10:38', time: '01:42', principal: 1, profit: '1.0033', btnName: '赎回'},
 ]);
 
 // 赎回列表数据
 const redeemList = ref([
-  { id: 1, date: '25.11.08 10:38', time: '01:42', principal: 1, profit: '1.0033', btnName: '已结束' },
-  { id: 2, date: '25.11.08 10:38', time: '01:42', principal: 1, profit: '1.0033', btnName: '已结束' },
-  { id: 3, date: '25.11.08 10:38', time: '01:42', principal: 1, profit: '1.0033', btnName: '已结束' },
-  { id: 4, date: '25.11.08 10:38', time: '01:42', principal: 1, profit: '1.0033', btnName: '已结束' },
-  { id: 5, date: '25.11.08 10:38', time: '01:42', principal: 1, profit: '1.0033', btnName: '已结束' },
-  { id: 6, date: '25.11.08 10:38', time: '01:42', principal: 1, profit: '1.0033', btnName: '已结束' },
-  { id: 7, date: '25.11.08 10:38', time: '01:42', principal: 1, profit: '1.0033', btnName: '已结束' },
+  {id: 1, date: '25.11.08 10:38', time: '01:42', principal: 1, profit: '1.0033', btnName: '已结束'},
 ]);
 
 const inviteModalShow = ref(false);
@@ -39,7 +41,6 @@ const handleInviteConfirm = (data) => {
 const addAssetModalShow = ref(false);
 const selectedDays = ref('');
 
-
 const handleAddAsset = (data) => {
   console.log('增加资产金额:', data.inputValue);
   console.log('选择的投资期限:', selectedDays.value);
@@ -48,12 +49,12 @@ const handleAddAsset = (data) => {
 
 // 语言切换
 const i18n = useI18n()
-let languageOptions =  [
-  { text: 'English', value: 'en', disabled: i18n.locale.value === 'en' },
-  { text: '简体中文', value: 'zh', disabled: i18n.locale.value === 'zh' },
-  { text: '日本語', value: 'ja', disabled: i18n.locale.value === 'ja' },
-  { text: '한국어', value: 'ko', disabled: i18n.locale.value === 'ko' },
-  { text: 'РОССИЯ', value: 'ru', disabled: i18n.locale.value === 'ru' }
+let languageOptions = [
+  {text: 'English', value: 'en', disabled: i18n.locale.value === 'en'},
+  {text: '简体中文', value: 'zh', disabled: i18n.locale.value === 'zh'},
+  {text: '日本語', value: 'ja', disabled: i18n.locale.value === 'ja'},
+  {text: '한국어', value: 'ko', disabled: i18n.locale.value === 'ko'},
+  {text: 'РОССИЯ', value: 'ru', disabled: i18n.locale.value === 'ru'}
 ]
 const showLanguage = ref(false);
 const onSelectLanguage = (action) => {
@@ -68,12 +69,45 @@ const onSelectLanguage = (action) => {
   showLanguage.value = !showLanguage.value;
 };
 
-// 显示警告框
-import errorIcon from '@/assets/svg/error.svg'
-import successIcon from '@/assets/svg/success.svg'
-import {useI18n} from "vue-i18n";
-
 const setAlertMsg = inject("setAlertMsg")
+
+// 推荐人
+const referrer = ref();
+
+// 复制推荐人链接
+async function copyLink() {
+  let text = getHost();
+  text += '?ref=' + getSelectedAddress();
+  copyText(text, undefined, (error, event) => {
+    if (error) {
+      console.log(error)
+      showError('复制失败')
+    } else {
+      showSuccess('复制成功')
+    }
+  })
+}
+
+onMounted(async () => {
+  await init();
+})
+
+async function init() {
+  let res = await Promise.all([
+    store.setState([0, 1, 2, 3, 4, 5, 6, 7, 8]),
+  ]);
+  await setReferrer();
+}
+
+async function setReferrer() {
+  if (store.referrer !== '0x0000000000000000000000000000000000000000')
+    referrer.value = store.referrer;
+  else if (route.query?.ref) {
+    referrer.value = route.query?.ref;
+  } else {
+    referrer.value = await getAddress('rootAddress')
+  }
+}
 
 function showError(content, callback) {
   setAlertMsg({
@@ -81,7 +115,8 @@ function showError(content, callback) {
     content: content,
     icon: errorIcon,
     show: true,
-    callback: callback || (() => {})
+    callback: callback || (() => {
+    })
   })
 }
 
@@ -91,32 +126,10 @@ function showSuccess(content, callback) {
     content: content,
     icon: successIcon,
     show: true,
-    callback: callback || (() => {})
+    callback: callback || (() => {
+    })
   })
 }
-
-// 使用
-function handleErrorClick() {
-  showError('操作失败', () => {
-    console.log('用户点击了错误按钮')
-  })
-}
-
-function handleSuccessClick() {
-  showSuccess('操作成功', () => {
-    console.log('用户点击了成功按钮')
-  })
-}
-
-// 将原来的常量定义改为响应式引用
-const assetValue = ref(1.2524243)
-
-setInterval(() => {
-  // 生成 1.xxxxxxxx 格式的数值（1后面跟9位小数）
-  const randomDecimal = Math.floor(Math.random() * 1000000000);
-  assetValue.value = 1 + randomDecimal / 1000000000;
-}, 5000);
-
 
 </script>
 <template>
@@ -137,7 +150,7 @@ setInterval(() => {
             <img src="@/assets/svg/earth.svg" alt="" class="earthImg">
           </template>
         </van-popover>
-        <div class="token" @click="inviteModalShow = true">0x49b2****85f2</div>
+        <div class="token" @click="inviteModalShow = true">{{ replaceMiddleWithAsterisks(getSelectedAddress()) }}</div>
       </div>
     </div>
     <!--我的当前资产-->
@@ -148,7 +161,7 @@ setInterval(() => {
         <img src="@/assets/svg/vector_right.svg" alt="" style="width: 104px; height: 17px;">
       </div>
       <div class="asset-token">
-        <NumberFlow :value="assetValue" :format="{  maximumFractionDigits: 20}"  />
+        <NumberFlow :value="store.balance" :format="{maximumFractionDigits: 20}"/>
         <span>Token</span>
       </div>
       <div class="asset-btn" @updateAsset="updateAsset(2424244)">
@@ -162,8 +175,8 @@ setInterval(() => {
         </div>
         <div class="row">
           <div class="row-label">{{ $t('link') }}</div>
-          <div class="row-value">
-            0x49b2****85F2
+          <div class="row-value" @click="copyLink()">
+            {{ replaceMiddleWithAsterisks(getSelectedAddress()) }}
             <img src="@/assets/svg/copy.svg" alt="" style="width: 16px; height: 16px;">
           </div>
         </div>
@@ -187,10 +200,10 @@ setInterval(() => {
                 title-active-color="#03EDFF"
       >
         <van-tab :title="$t('tab1')">
-          <List :data="investmentData" class="tab-content" />
+          <List :data="investmentData" class="tab-content"/>
         </van-tab>
         <van-tab :title="$t('tab2')">
-          <List :data="redeemList" class="tab-content" />
+          <List :data="redeemList" class="tab-content"/>
         </van-tab>
       </van-tabs>
     </div>
@@ -215,10 +228,10 @@ setInterval(() => {
       @confirm="handleAddAsset"
       @dropdown-change="selectedDays = $event"
     />
-    <Alert />
+    <Alert/>
 
   </div>
 </template>
 <style scoped lang="scss">
-@use "@/views/asset/index";
+@use "@/views/index/index";
 </style>

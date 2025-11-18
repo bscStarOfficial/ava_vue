@@ -22,9 +22,7 @@ export const useStakingStore = defineStore('staking', {
     teamKpi: 0,
   }),
   getters: {
-    registered(state) {
-      return state.referrer !== '0x0000000000000000000000000000000000000000'
-    },
+
   },
   actions: {
     async setState(callIds = []) {
@@ -50,13 +48,13 @@ export const useStakingStore = defineStore('staking', {
             this.usdt.allowance = balanceOfDecode(data);
             break;
           case 6:
-            this.stakeDays[0] = stakingFuncDecode(data);
+            this.stakeDays[0] = stakingFuncDecode('stakeDays', data);
             break;
           case 7:
-            this.stakeDays[1] = stakingFuncDecode(data);
+            this.stakeDays[1] = stakingFuncDecode('stakeDays', data);
             break;
           case 8:
-            this.stakeDays[2] = stakingFuncDecode(data);
+            this.stakeDays[2] = stakingFuncDecode('stakeDays', data);
             break;
         }
       })
