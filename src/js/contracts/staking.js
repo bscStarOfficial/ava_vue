@@ -55,11 +55,8 @@ export function stakingFuncDecode(func, result) {
     func === 'getTeamKpi'
   ) {
     return new BigNumber(res[0]).dividedBy(1e18).toFixed(2)
-  } else if (func === 'pending') {
-    return {
-      subDay: res[0],
-      rewardTotal: new BigNumber(res[1]).dividedBy(1e5).toNumber(),
-    }
+  } else if (func === 'stakeDays') {
+    return new BigNumber(res[0]).toNumber();
   }
   return res[0];
 }

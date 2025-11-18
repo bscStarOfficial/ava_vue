@@ -41,6 +41,15 @@ export async function getCalls(callIds = [], user = '') {
       case 5:
         calls.push(await allowanceEncode('usdt', await getAddress('staking')));
         break;
+      case 6:
+        calls.push(await stakingFuncEncode('stakeDays', [0]));
+        break;
+      case 7:
+        calls.push(await stakingFuncEncode('stakeDays', [1]));
+        break;
+      case 8:
+        calls.push(await stakingFuncEncode('stakeDays', [2]));
+        break;
     }
   }
   return calls;

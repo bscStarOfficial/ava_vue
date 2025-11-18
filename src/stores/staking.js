@@ -11,6 +11,11 @@ export const useStakingStore = defineStore('staking', {
       balance: 0,
       allowance: 0
     },
+    stakeDays: [
+      86400,
+      86400 * 15,
+      86400 * 30,
+    ],
     referrer: '0x0000000000000000000000000000000000000000',
     maxStakeAmount: 0,
     balance: 0,
@@ -43,6 +48,15 @@ export const useStakingStore = defineStore('staking', {
             break;
           case 5:
             this.usdt.allowance = balanceOfDecode(data);
+            break;
+          case 6:
+            this.stakeDays[0] = stakingFuncDecode(data);
+            break;
+          case 7:
+            this.stakeDays[1] = stakingFuncDecode(data);
+            break;
+          case 8:
+            this.stakeDays[2] = stakingFuncDecode(data);
             break;
         }
       })
