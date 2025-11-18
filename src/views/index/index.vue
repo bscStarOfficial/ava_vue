@@ -62,14 +62,16 @@ async function copyLink() {
 
 onMounted(async () => {
   await init();
+  setInterval(async () => {
+    await init()
+  }, 1000);
 })
 
 async function init() {
-  let res = await Promise.all([
-    store.setState([0, 1, 2, 3, 4, 5, 6, 7, 8]),
+  await Promise.all([
+    store.setState([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]),
   ]);
 }
-
 
 function showModal() {
   if (!store.registered) inviteModalShow.value = true;
