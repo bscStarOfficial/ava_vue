@@ -32,10 +32,6 @@ const props = defineProps({
     type: Number,
     default: 0
   },
-  listType: {
-    type: Number,
-    default: 0
-  }
 });
 
 const list = ref([]);
@@ -89,7 +85,7 @@ const it = ref(0);
 const getList = async () => {
   if (it.value > 0) clearInterval(it.value);
 
-  let records = await getUserRecords(0, 100, props.status, props.listType);
+  let records = await getUserRecords(0, 100, props.status, 0);
   records.forEach((item) => {
     // 盈利数据
     item.profit = getProfit(item);
@@ -105,9 +101,6 @@ const getList = async () => {
 }
 
 function getProfit(item) {
-  // 购买赎回没有利息
-  if (props.listType === 1) return 0;
-
   let time = !item.status ? nowTimestamp() : item.unStakeTime;
   time = new BigNumber(time);
 
@@ -126,12 +119,7 @@ function getProfit(item) {
 function getButtonKey(item) {
   if (item.status) return 'redeemed';
 
-  let endTime;
-  if (props.listType === 1) {
-    endTime = new BigNumber(item.stakeTime).plus(86400);
-  } else {
-    endTime = new BigNumber(item.stakeTime).plus(store.stakeDays[item.stakeIndex]);
-  }
+  let endTime = new BigNumber(item.stakeTime).plus(store.stakeDays[item.stakeIndex]);
   if (endTime.lt(nowTimestamp())) return 'finished';
   else return 'pending'
 }
