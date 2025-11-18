@@ -40,7 +40,21 @@ export async function redeemUnStake(index) {
 }
 
 export async function getUserRecords(offset, limit, status, listType) {
+  let staking = await getDefaultContract();
+  const selectedAddress = window.ethereum?.selectedAddress;
+  const sendParam = {from: selectedAddress};
 
+  let res = await staking?.methods?.getUserRecords(
+    selectedAddress, offset, limit, status, listType).call(sendParam);
+
+  return res[0].map(item => ({
+    amount: item.amount,
+    id: item.id,
+    stakeIndex: item.stakeIndex,
+    stakeTime: item.stakeTime,
+    status: item.status,
+    unStakeTime: item.unStakeTime
+  }));
 }
 
 export async function stakingFuncEncode(func, args = []) {
