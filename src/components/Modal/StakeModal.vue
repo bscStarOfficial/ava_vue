@@ -70,6 +70,7 @@ const doStake = async () => {
     loading.value = false;
     showSuccess('增加资产成功');
     onCancel();
+    emit('staked');
     await store.setState([0, 1, 2, 3, 4, 5, 6, 7, 8]);
   } catch (e) {
     console.log(e)
