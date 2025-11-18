@@ -1,6 +1,7 @@
 <script setup>
 import {inject, onMounted, ref} from "vue";
 import List from '@/components/List/List.vue';
+import ListBuy from '@/components/List/ListBuy.vue';
 import InviteModal from '@/components/Modal/InviteModal.vue';
 import StakeModal from '@/components/Modal/StakeModal.vue';
 import Alert from '@/components/Alert/Alert.vue';
@@ -149,10 +150,13 @@ function showModal() {
                 title-active-color="#03EDFF"
       >
         <van-tab :title="$t('tab1')">
-          <List ref="stakingList" :status="0" :listType="0"/>
+          <List ref="stakingList" :status="0"/>
         </van-tab>
         <van-tab :title="$t('tab2')">
-          <List :status="1" :listType="0"/>
+          <List :status="1"/>
+        </van-tab>
+        <van-tab :title="$t('tab3')">
+          <ListBuy :status="0"/>
         </van-tab>
       </van-tabs>
     </div>
