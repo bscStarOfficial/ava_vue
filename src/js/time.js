@@ -13,7 +13,20 @@ export function utcToTime1(str) {
 export function timestampFormat(str) {
   str = Number(str + "000")
   let date = new Date(str);
-  return date.getMonth() + 1 + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes()
+
+  let month = date.getMonth() + 1
+  month = month < 10 ? '0' + month : month;
+
+  let day = date.getDate();
+  day = day < 10 ? '0' + day : day;
+
+  let hours = date.getHours();
+  hours = hours < 10 ? '0' + hours : hours;
+
+  let minutes = date.getMinutes();
+  minutes = minutes < 10 ? '0' + minutes : minutes;
+
+  return month + "-" + day + " " + hours + ":" + minutes
 }
 
 export function timestampFormat2(str) {
