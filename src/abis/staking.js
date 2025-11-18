@@ -362,14 +362,19 @@ export default [
       {
         "components": [
           {
+            "internalType": "uint32",
+            "name": "id",
+            "type": "uint32"
+          },
+          {
             "internalType": "uint40",
             "name": "stakeTime",
             "type": "uint40"
           },
           {
-            "internalType": "uint160",
+            "internalType": "uint128",
             "name": "amount",
-            "type": "uint160"
+            "type": "uint128"
           },
           {
             "internalType": "bool",
@@ -665,9 +670,9 @@ export default [
   {
     "inputs": [
       {
-        "internalType": "uint160",
+        "internalType": "uint128",
         "name": "_amount",
-        "type": "uint160"
+        "type": "uint128"
       },
       {
         "internalType": "uint256",
@@ -726,9 +731,9 @@ export default [
   {
     "inputs": [
       {
-        "internalType": "uint160",
+        "internalType": "uint128",
         "name": "_amount",
-        "type": "uint160"
+        "type": "uint128"
       },
       {
         "internalType": "uint256",
@@ -939,14 +944,19 @@ export default [
     "name": "userStakeRecord",
     "outputs": [
       {
+        "internalType": "uint32",
+        "name": "id",
+        "type": "uint32"
+      },
+      {
         "internalType": "uint40",
         "name": "stakeTime",
         "type": "uint40"
       },
       {
-        "internalType": "uint160",
+        "internalType": "uint128",
         "name": "amount",
-        "type": "uint160"
+        "type": "uint128"
       },
       {
         "internalType": "bool",
@@ -983,14 +993,19 @@ export default [
     "name": "userUnStakeRecord",
     "outputs": [
       {
+        "internalType": "uint32",
+        "name": "id",
+        "type": "uint32"
+      },
+      {
         "internalType": "uint40",
         "name": "stakeTime",
         "type": "uint40"
       },
       {
-        "internalType": "uint160",
+        "internalType": "uint128",
         "name": "amount",
-        "type": "uint160"
+        "type": "uint128"
       },
       {
         "internalType": "bool",
