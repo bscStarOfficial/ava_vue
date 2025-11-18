@@ -20,6 +20,7 @@ export const useStakingStore = defineStore('staking', {
     maxStakeAmount: 0,
     balance: 0,
     teamKpi: 0,
+    isBuyUnStake: false
   }),
   getters: {
     registered(state) {
@@ -57,6 +58,9 @@ export const useStakingStore = defineStore('staking', {
             break;
           case 8:
             this.stakeDays[2] = stakingFuncDecode('stakeDays', data);
+            break;
+          case 9:
+            this.isBuyUnStake = stakingFuncDecode('isBuyUnStake', data);
             break;
         }
       })

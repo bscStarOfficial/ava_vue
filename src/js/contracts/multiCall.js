@@ -50,6 +50,9 @@ export async function getCalls(callIds = [], user = '') {
       case 8:
         calls.push(await stakingFuncEncode('stakeDays', [2]));
         break;
+      case 9:
+        calls.push(await stakingFuncEncode('isBuyUnStake'));
+        break;
     }
   }
   return calls;
