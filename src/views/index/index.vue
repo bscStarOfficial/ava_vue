@@ -177,7 +177,7 @@ function showModal() {
       }"
       @staked="() => {
         console.log('staked')
-        stakingList.value.getList();
+        stakingList.getList();
       }"
     />
     <Alert/>
