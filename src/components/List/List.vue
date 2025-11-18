@@ -38,10 +38,13 @@ const list = ref([]);
 const loading = ref(false);
 const finished = ref(true);
 
-const onLoad = () => {};
+const onLoad = () => {
+};
 
 const handleRedeem = (item) => {
   if (item.buttonKey !== 'finished') return;
+
+  item.loading = true;
 };
 
 onMounted(async () => {
@@ -54,6 +57,7 @@ async function getList() {
     // 盈利数据
     item.profit = getProfit(item);
     item.buttonKey = getButtonKey(item);
+    item.loading = false;
   })
   console.log(records);
   list.value = records;
@@ -103,7 +107,7 @@ function getButtonKey(item) {
     <van-list
       v-model:loading="loading"
       :finished="finished"
-      finished-text="没有更多了"
+      :finished-text="list.length === 0? '没有更多了':''"
       @load="onLoad"
     >
       <van-cell
@@ -120,9 +124,9 @@ function getButtonKey(item) {
           </template>
           <template v-else-if="header.key === 'date'">
 <!--            <div class="datetime-container">-->
-<!--              <div>{{ timestampFormat(item.stakeTime) }}</div>-->
-<!--              <div>1111</div>-->
-<!--            </div>-->
+            <!--              <div>{{ timestampFormat(item.stakeTime) }}</div>-->
+            <!--              <div>1111</div>-->
+            <!--            </div>-->
             {{ timestampFormat(item.stakeTime) }}
           </template>
           <template v-else-if="header.key === 'principal'">
@@ -138,7 +142,12 @@ function getButtonKey(item) {
               :color="item.status ? '#1087A1' : '#05DAEB'"
               :style="{ color: item.status ? '#015059' : '' }"
               @click="handleRedeem(item)"
-            >{{ $t(item.buttonKey) }}</van-button>
+            >
+              <template v-if="item.loading">
+                <van-loading size="20" color="#1989fa"/>
+              </template>
+              <template v-else>{{ $t(item.buttonKey) }}</template>
+            </van-button>
           </template>
         </span>
           </div>
