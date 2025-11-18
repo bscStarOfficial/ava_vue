@@ -67,7 +67,7 @@ onMounted(async () => {
   await init();
   setInterval(async () => {
     await init()
-  }, 1000);
+  }, 5000);
 })
 
 async function init() {
