@@ -7,6 +7,7 @@ export default {
   tip: '풀에 기부 후 기부 금액에 따라 일일 최대 1.2% 자동 복리, 1회당 최대 30위안.',
   tab1: '투자 목록',
   tab2: '상환 목록',
+  tab3: '구입 목록',
   confirmInviter: '초대인 확인',
   address: '초대인 주소를 입력하세요',
   addAsset: '자산 추가',

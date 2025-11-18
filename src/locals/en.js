@@ -7,6 +7,7 @@ export default {
   tip: 'After donating to the pool, automatic compound interest of up to 1.2% daily based on donation amount, up to 30 yuan per donation.',
   tab1: 'Investment List',
   tab2: 'Redemption List',
+  tab3: 'Buy List',
   confirmInviter: 'Confirm Inviter',
   address: 'Please enter inviter address',
   addAsset: 'Add Asset',

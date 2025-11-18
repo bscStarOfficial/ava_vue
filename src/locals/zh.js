@@ -7,6 +7,7 @@ export default {
   tip: '捐赠底池后按捐赠额，每日最高1.2%自动复利，每次最高30元。',
   tab1: '投资列表',
   tab2: '赎回列表',
+  tab3: '购买列表',
   confirmInviter: '确认邀请人',
   address: '请输入邀请人地址',
   addAsset: '增加资产',
