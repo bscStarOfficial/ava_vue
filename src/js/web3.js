@@ -1,5 +1,5 @@
 import Web3 from 'web3';
-import {Buffer} from 'buffer';
+import {verifyTypedData} from "ethers";
 
 export function getWeb3() {
   let code = window.ethereum ? 1 : (window.web3 ? 2 : 0)
@@ -48,16 +48,82 @@ async function windowWeb3() {
   return {web3: window.web3, ethereum: null};
 }
 
-export async function personalSign(message) {
-  const from = window.ethereum?.selectedAddress;
-  const msg = `0x${Buffer.from(message, 'utf8').toString('hex')}`;
-  return await ethereum.request({
-    method: 'personal_sign',
-    params: [msg, from],
-  });
+export async function getContract(abi, address) {
+  const web3 = window.web3;
+  return new web3.eth.Contract(abi, address);
 }
 
-export async function getContract(abi, address) {
-    const web3 = window.web3;
-    return new web3.eth.Contract(abi, address);
+export async function sign() {
+  let chainId = await window.ethereum.request({method: 'eth_chainId'});
+  const domain = {
+    name: 'AVA Token',
+    version: '1',
+    chainId: chainId,
+  };
+  const message = {
+    time: new Date().getTime(),
+  };
+  localStorage.setItem('signMessage', JSON.stringify(message));
+
+  const primaryType = 'Message';
+  const types = {
+    EIP712Domain: [
+      {name: 'name', type: 'string'},
+      {name: 'version', type: 'string'},
+      {name: 'chainId', type: 'uint256'},
+    ],
+    Message: [
+      {name: "time", type: "uint256"},
+    ],
+  };
+
+  const sign = await ethereum.request({
+    method: "eth_signTypedData_v4",
+    params: [
+      getSelectedAddress(),
+      {
+        domain, primaryType, types, message
+      }
+    ],
+  });
+  localStorage.setItem('signResult', sign);
+}
+
+export async function recover() {
+  let signMessage = localStorage.getItem('signMessage') || '';
+  let signResult = localStorage.getItem('signResult') || '';
+
+  if (!signMessage || !signResult) {
+    await sign();
+    return;
+  }
+
+  let chainId = await window.ethereum.request({method: 'eth_chainId'});
+  const domain = {
+    name: 'AVA Token',
+    version: '1',
+    chainId: chainId,
+  };
+  const message = JSON.parse(signMessage);
+  const types = {
+    EIP712Domain: [
+      {name: 'name', type: 'string'},
+      {name: 'version', type: 'string'},
+      {name: 'chainId', type: 'uint256'},
+    ],
+    Message: [
+      {name: "time", type: "uint256"},
+    ],
+  };
+
+  const recoveredAddress = verifyTypedData(
+    domain,
+    {Message: types.Message},
+    message,
+    signResult
+  );
+
+  if (recoveredAddress.toLowerCase() !== getSelectedAddress().toLowerCase()) {
+    await sign()
+  }
 }
