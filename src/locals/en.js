@@ -1,9 +1,9 @@
 export default {
   asset: 'My Current Assets',
-  title: 'Donate to Pool',
+  title: 'Pool',
   performance: 'Performance',
   link: 'Link',
-  rule: 'I LAF Market Maker Investment Rules',
+  rule: 'AVA Market Maker Investment Plan',
   tip: 'After donating to the pool, automatic compound interest of up to 1.2% daily based on donation amount, up to 30 yuan per donation.',
   tab1: 'Investment List',
   tab2: 'Redemption List',
@@ -11,15 +11,15 @@ export default {
   address: 'Please enter inviter address',
   addAsset: 'Add Asset',
   inputIncreaseAmount: 'Please enter increase amount',
-  option1: '1 day, 0.3% compound interest',
-  option2: '15 days, 0.6% compound interest',
-  option3: '30 days, 1.2% compound interest',
+  option1: '1 day, 0.3% interest',
+  option2: '15 days, 0.6% interest',
+  option3: '30 days, 1.2% interest',
   selectDays: 'Please select days',
   cancel: 'Cancel',
   confirm: 'Confirm',
   index: 'Index',
   date: 'Date',
-  principal: 'Principal',
-  profit: 'Profit',
-  action: 'Redemption Progress'
+  principal: 'Capital',
+  profit: 'Gain',
+  action: 'Progress'
 };

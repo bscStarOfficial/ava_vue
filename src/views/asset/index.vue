@@ -56,9 +56,9 @@ const languageOptions =  [
   { text: 'РОССИЯ', value: 'ru' }
 ]
 const showLanguage = ref(false);
-const currentLanguage = ref('简体中文')
 const onSelectLanguage = (action) => {
   console.log('选择了语言', action);
+  localStorage.setItem('lang', action.value);
   i18n.locale.value = action.value;
 };
 

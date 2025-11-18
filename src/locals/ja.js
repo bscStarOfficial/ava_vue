@@ -1,6 +1,6 @@
 export default {
   asset: '私の現在の資産',
-  title: 'プールに寄付',
+  title: '寄付',
   performance: '業績',
   link: 'リンク',
   rule: 'I LAFマーケットメーカー投資規則',
@@ -14,12 +14,12 @@ export default {
   option1: '1日、複利0.3%',
   option2: '15日、複利0.6%',
   option3: '30日、複利1.2%',
-  selectDays: '日数を選択してください',
+  selectDays: '日数を選択',
   cancel: 'キャンセル',
   confirm: '確定',
   index: '番号',
   date: '日付',
   principal: '元本',
   profit: '利益',
-  action: '償還進行状況'
+  action: '償還状況'
 };
