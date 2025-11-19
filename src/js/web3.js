@@ -127,3 +127,14 @@ export async function recover() {
     await sign()
   }
 }
+
+export async function getGasPrice() {
+  return await web3.eth.getGasPrice();
+}
+
+export async function getSendPram() {
+  return {
+    from: getSelectedAddress(),
+    gasPrice: await getGasPrice(),
+  }
+}

@@ -2,7 +2,7 @@ import defaultAbi from '@/abis/erc20';
 import {getAddress} from "@/js/config";
 import {Interface} from "ethers";
 import BigNumber from "bignumber.js";
-import {getContract} from "@/js/web3";
+import {getContract, getSendPram} from "@/js/web3";
 
 export async function getErc20(erc20Name) {
   let defaultAddress = await getAddress(erc20Name);
@@ -11,10 +11,7 @@ export async function getErc20(erc20Name) {
 
 export async function approve(erc20Name, to, amount) {
   let card = await getErc20(erc20Name);
-  const selectedAddress = window.ethereum?.selectedAddress;
-
-  const sendParam = {from: selectedAddress};
-  await card?.methods?.approve(to, amount).send(sendParam);
+  await card?.methods?.approve(to, amount).send(await getSendPram());
 }
 
 export async function balanceOfEncode(name, account) {

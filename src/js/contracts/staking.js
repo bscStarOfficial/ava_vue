@@ -1,6 +1,6 @@
 import defaultAbi from '@/abis/staking';
 import {getAddress} from "@/js/config";
-import {getContract} from "@/js/web3";
+import {getContract, getSendPram} from "@/js/web3";
 import {Interface} from "ethers";
 import BigNumber from "bignumber.js";
 
@@ -12,31 +12,23 @@ export async function getDefaultContract() {
 export async function stakeWithInviter(uAmount, stakeIndex, referrer) {
   let staking = await getDefaultContract();
   uAmount = new BigNumber(uAmount).multipliedBy(1e18).toFixed();
-  const selectedAddress = window.ethereum?.selectedAddress;
 
   console.log(
     uAmount, 0, stakeIndex, referrer
   )
-  const sendParam = {from: selectedAddress};
   await staking?.methods?.stakeWithInviter(
     uAmount, 0, stakeIndex, referrer
-  ).send(sendParam);
+  ).send(await getSendPram());
 }
 
 export async function unStake(index) {
   let staking = await getDefaultContract();
-  const selectedAddress = window.ethereum?.selectedAddress;
-
-  const sendParam = {from: selectedAddress};
-  await staking?.methods?.unStake(index).send(sendParam);
+  await staking?.methods?.unStake(index).send(await getSendPram());
 }
 
 export async function redeemUnStake(index) {
   let staking = await getDefaultContract();
-  const selectedAddress = window.ethereum?.selectedAddress;
-
-  const sendParam = {from: selectedAddress};
-  await staking?.methods?.redeemUnStake(index).send(sendParam);
+  await staking?.methods?.redeemUnStake(index).send(await getSendPram());
 }
 
 export async function getUserRecords(offset, limit, status, listType) {
