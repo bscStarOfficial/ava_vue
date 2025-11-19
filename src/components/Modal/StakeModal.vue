@@ -10,7 +10,7 @@ import {approve} from "@/js/contracts/erc20s";
 
 const store = useStakingStore();
 const route = useRoute();
-const {t} = useI18n();
+const {t, locale} = useI18n();
 const showError = inject("showError");
 const showSuccess = inject("showSuccess");
 
@@ -31,11 +31,19 @@ const showPopover = ref(false);
 const showDropdown = ref(true);
 const loading = ref(false);
 
-const options = [
+let options = [
   {text: t('option1')},
   {text: t('option2')},
   {text: t('option3')}
 ];
+
+watch(locale, () => {
+  options = [
+    {text: t('option1')},
+    {text: t('option2')},
+    {text: t('option3')}
+  ]
+});
 
 // 点击遮罩或取消按钮关闭弹窗
 const onCancel = () => {
