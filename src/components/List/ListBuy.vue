@@ -16,7 +16,7 @@ const showSuccess = inject("showSuccess");
 const getHeaders = () => [
   {key: 'index', label: t('index'), flex: 1},
   {key: 'date', label: t('date'), flex: 2},
-  {key: 'principal', label: t('principal'), flex: 1},
+  {key: 'principal', label: 'AVA', flex: 1},
   {key: 'action', label: t('action'), flex: 2}
 ];
 const headers = ref(getHeaders());
