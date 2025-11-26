@@ -2,7 +2,7 @@
 import {inject, onMounted, ref, watch} from 'vue';
 import {useI18n} from "vue-i18n";
 import {getUserRecords, unStake} from "@/js/contracts/staking";
-import {nowTimestamp, timestampFormat, timestampFormat2} from "@/js/time";
+import {countdownTime, nowTimestamp, timestampFormat, timestampFormat2} from "@/js/time";
 import {div18, toFixed} from "@/js/utils";
 import BigNumber from "bignumber.js";
 import {useStakingStore} from "@/stores/staking";
@@ -162,7 +162,7 @@ defineExpose({
             <div class="datetime-container">
               <div>{{ timestampFormat(item.stakeTime) }}</div>
               <div>
-                <van-count-down style="color:rgb(5, 218, 235)" :time="item.end" format="DD天 HH:mm:ss"/>
+                <van-count-down style="color:rgb(5, 218, 235)" :time="countdownTime(item.end)" format="DD天 HH:mm:ss"/>
               </div>
             </div>
           </template>
