@@ -111,13 +111,17 @@ function getProfit(item) {
   let maxTime = new BigNumber(item.stakeTime).plus(86400 * 30);
   if (time.gt(maxTime)) time = maxTime;
 
-  let rate = [0.003, 0.006, 0.012][item.stakeIndex];
-  return time.minus(item.stakeTime)
+  let rate = [
+    new BigNumber('1.000000034670200000'),
+    new BigNumber('1.000000069236900000'),
+    new BigNumber('1.000000138062200000')
+  ][item.stakeIndex];
+
+  return rate.pow(time.minus(item.stakeTime))
     .multipliedBy(item.amount)
+    .minus(item.amount)
     .dividedBy(1e18)
-    .dividedBy(86400)
-    .multipliedBy(rate)
-    .toFixed(4);
+    .toFixed(4, 1);
 }
 
 function getButtonKey(item) {
