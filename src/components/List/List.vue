@@ -86,10 +86,14 @@ const getList = async () => {
   if (it.value > 0) clearInterval(it.value);
 
   let records = await getUserRecords(0, 100, props.status, 0);
+  // for (let i = 0; i < 8; i++) {
+  //   records = records.concat(records)
+  // }
   records.forEach((item) => {
     // 盈利数据
     item.profit = getProfit(item);
     item.buttonKey = getButtonKey(item);
+    item.end = new BigNumber(item.stakeTime).plus(store.stakeDays[item.stakeIndex]).toNumber();
     item.loading = false
   })
   console.log(records);
@@ -155,11 +159,12 @@ defineExpose({
             {{ item.id }}
           </template>
           <template v-else-if="header.key === 'date'">
-<!--            <div class="datetime-container">-->
-            <!--              <div>{{ timestampFormat(item.stakeTime) }}</div>-->
-            <!--              <div>1111</div>-->
-            <!--            </div>-->
-            {{ timestampFormat(item.stakeTime) }}
+            <div class="datetime-container">
+              <div>{{ timestampFormat(item.stakeTime) }}</div>
+              <div>
+                <van-count-down style="color:rgb(5, 218, 235)" :time="item.end" format="DD天 HH:mm:ss"/>
+              </div>
+            </div>
           </template>
           <template v-else-if="header.key === 'principal'">
             {{ div18(item.amount, 2) }}

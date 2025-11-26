@@ -1,6 +1,6 @@
 import defaultAbi from '@/abis/staking';
 import {getAddress} from "@/js/config";
-import {getContract, getSendPram} from "@/js/web3";
+import {getContract, getSelectedAddress, getSendPram} from "@/js/web3";
 import {Interface} from "ethers";
 import BigNumber from "bignumber.js";
 
@@ -33,7 +33,7 @@ export async function redeemUnStake(index) {
 
 export async function getUserRecords(offset, limit, status, listType) {
   let staking = await getDefaultContract();
-  const selectedAddress = window.ethereum?.selectedAddress;
+  const selectedAddress = getSelectedAddress();
   const sendParam = {from: selectedAddress};
 
   let res = await staking?.methods?.getUserRecords(
