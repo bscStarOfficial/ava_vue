@@ -1,13 +1,15 @@
 <script setup>
 import {inject, onMounted, ref, watch} from 'vue';
 import {useI18n} from "vue-i18n";
-import {getUserRecords, unStake} from "@/js/contracts/staking";
+import {getUserRecords, stakingFuncDecode, stakingFuncEncode, unStake} from "@/js/contracts/staking";
 import {countdownTime, nowTimestamp, timestampFormat, timestampFormat2} from "@/js/time";
 import {div18, toFixed} from "@/js/utils";
 import BigNumber from "bignumber.js";
 import {useStakingStore} from "@/stores/staking";
 import {getAddress} from "@/js/config";
 import {approve} from "@/js/contracts/erc20s";
+import {getSelectedAddress} from "@/js/web3";
+import {aggregate} from "@/js/contracts/multiCall";
 
 // 表头配置项
 const {t, locale} = useI18n()
@@ -71,11 +73,19 @@ const doUnStake = async (item) => {
   }
 };
 
-function updateList() {
+async function updateList() {
   let records = list.value;
-  records.forEach((item) => {
-    // 盈利数据
-    item.profit = getProfit(item);
+
+  let calls = [];
+  for (let i in records) {
+    calls.push(await stakingFuncEncode('rewardOfSlot', [getSelectedAddress(), records[i].id]));
+  }
+  let rewards = await aggregate(calls);
+
+  records.forEach((item, index) => {
+    item.profit = new BigNumber(stakingFuncDecode('rewardOfSlot', rewards[index]))
+      .minus(new BigNumber(item.amount).dividedBy(1e18))
+      .toFixed(4, 1);
     item.buttonKey = getButtonKey(item);
   })
   list.value = records;
@@ -89,14 +99,20 @@ const getList = async () => {
   // for (let i = 0; i < 8; i++) {
   //   records = records.concat(records)
   // }
-  records.forEach((item) => {
-    // 盈利数据
-    item.profit = getProfit(item);
+  let calls = [];
+  for (let i in records) {
+    calls.push(await stakingFuncEncode('rewardOfSlot', [getSelectedAddress(), records[i].id]));
+  }
+  let rewards = await aggregate(calls);
+
+  records.forEach((item, index) => {
+    item.profit = new BigNumber(stakingFuncDecode('rewardOfSlot', rewards[index]))
+      .minus(new BigNumber(item.amount).dividedBy(1e18)).toFixed(4, 1);
     item.buttonKey = getButtonKey(item);
     item.end = new BigNumber(item.stakeTime).plus(store.stakeDays[item.stakeIndex]).toNumber();
     item.loading = false
   })
-  console.log(records);
+
   list.value = records;
 
   it.value = setInterval(() => {
@@ -104,6 +120,7 @@ const getList = async () => {
   }, 5000);
 }
 
+// 前端计算太大，会导致卡顿
 function getProfit(item) {
   let time = !item.status ? nowTimestamp() : item.unStakeTime;
   time = new BigNumber(time);

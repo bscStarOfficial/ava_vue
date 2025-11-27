@@ -65,6 +65,7 @@ export function stakingFuncDecode(func, result, decimal = 18) {
     func === 'maxStakeAmount' ||
     func === 'balanceOf' ||
     func === 'caclItem' ||
+    func === 'rewardOfSlot' ||
     func === 'getTeamKpi'
   ) {
     return new BigNumber(res[0]).dividedBy(1e18).toFixed(decimal, 1)
