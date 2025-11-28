@@ -1,7 +1,8 @@
 <script setup>
 import {inject, onMounted, ref, watch} from 'vue';
 import {useI18n} from "vue-i18n";
-import {getUserRecords, stakingFuncDecode, stakingFuncEncode, unStake} from "@/js/contracts/staking";
+import {getUserRecords, unStake} from "@/js/contracts/staking";
+import {avaViewFuncEncode, avaViewFuncDecode} from "@/js/contracts/avaView";
 import {countdownTime, nowTimestamp, timestampFormat, timestampFormat2} from "@/js/time";
 import {div18, toFixed} from "@/js/utils";
 import BigNumber from "bignumber.js";
@@ -78,14 +79,21 @@ async function updateList() {
 
   let calls = [];
   for (let i in records) {
-    calls.push(await stakingFuncEncode('rewardOfSlot', [getSelectedAddress(), records[i].id]));
+    calls.push(await avaViewFuncEncode('caclItem', [{
+      id: records[i].id,
+      stakeTime: records[i].stakeTime,
+      amount: records[i].amount,
+      status: records[i].status,
+      stakeIndex: records[i].stakeIndex,
+      unStakeTime: records[i].unStakeTime,
+    }]));
   }
   let rewards = await aggregate(calls);
 
   records.forEach((item, index) => {
-    item.profit = new BigNumber(stakingFuncDecode('rewardOfSlot', rewards[index]))
+    item.profit = new BigNumber(avaViewFuncDecode('caclItem', rewards[index]))
       .minus(new BigNumber(item.amount).dividedBy(1e18))
-      .toFixed(4, 1);
+      .toFixed(5, 1);
     item.buttonKey = getButtonKey(item);
   })
   list.value = records;
@@ -101,13 +109,20 @@ const getList = async () => {
   // }
   let calls = [];
   for (let i in records) {
-    calls.push(await stakingFuncEncode('rewardOfSlot', [getSelectedAddress(), records[i].id]));
+    calls.push(await avaViewFuncEncode('caclItem', [{
+      id: records[i].id,
+      stakeTime: records[i].stakeTime,
+      amount: records[i].amount,
+      status: records[i].status,
+      stakeIndex: records[i].stakeIndex,
+      unStakeTime: records[i].unStakeTime,
+    }]));
   }
   let rewards = await aggregate(calls);
 
   records.forEach((item, index) => {
-    item.profit = new BigNumber(stakingFuncDecode('rewardOfSlot', rewards[index]))
-      .minus(new BigNumber(item.amount).dividedBy(1e18)).toFixed(4, 1);
+    item.profit = new BigNumber(avaViewFuncDecode('caclItem', rewards[index]))
+      .minus(new BigNumber(item.amount).dividedBy(1e18)).toFixed(5, 1);
     item.buttonKey = getButtonKey(item);
     item.end = new BigNumber(item.stakeTime).plus(store.stakeDays[item.stakeIndex]).toNumber();
     item.loading = false
