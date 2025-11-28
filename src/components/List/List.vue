@@ -183,7 +183,7 @@ defineExpose({
             <div class="datetime-container">
               <div>{{ timestampFormat(item.stakeTime) }}</div>
               <div>
-                <van-count-down style="color:rgb(5, 218, 235)" :time="countdownTime(item.end)" format="DD天 HH:mm:ss"/>
+                <van-count-down style="color:rgb(5, 218, 235);font-size: 13px;" :time="countdownTime(item.end)" format="DD天 HH:mm:ss"/>
               </div>
             </div>
           </template>
