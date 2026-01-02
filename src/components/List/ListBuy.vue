@@ -2,7 +2,7 @@
 import {inject, onMounted, ref, watch} from 'vue';
 import {useI18n} from "vue-i18n";
 import {getUserRecords, redeemUnStake} from "@/js/contracts/staking";
-import {nowTimestamp, timestampFormat} from "@/js/time";
+import {countdownTime, nowTimestamp, timestampFormat} from "@/js/time";
 import {div18} from "@/js/utils";
 import BigNumber from "bignumber.js";
 import {useStakingStore} from "@/stores/staking";
@@ -77,6 +77,7 @@ const getList = async () => {
   records.forEach((item) => {
     // 盈利数据
     item.buttonKey = getButtonKey(item);
+    item.end = new BigNumber(item.stakeTime).plus(store.unStakeDay);
     item.loading = false
   })
   console.log(records);
@@ -126,7 +127,13 @@ defineExpose({
             {{ item.id }}
           </template>
           <template v-else-if="header.key === 'date'">
-            {{ timestampFormat(item.stakeTime) }}
+<!--            {{ timestampFormat(item.stakeTime) }}-->
+            <div class="datetime-container">
+              <div>{{ timestampFormat(item.stakeTime) }}</div>
+              <div>
+                <van-count-down style="color:rgb(5, 218, 235);font-size: 13px;" :time="countdownTime(item.end)" format="DD天 HH:mm:ss"/>
+              </div>
+            </div>
           </template>
           <template v-else-if="header.key === 'principal'">
             {{ div18(item.amount, 2) }}
