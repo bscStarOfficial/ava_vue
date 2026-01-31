@@ -31,4 +31,14 @@ export default {
   numberError: 'Quantity Error',
   dayError: 'Day Error',
   noMore: 'No more',
+  avaSwap: 'AVA Swap',
+  avaSwapDesc: 'Participate in AVA trading activities and win generous rewards',
+  send: 'Send',
+  all: 'All',
+  confirmSwap: 'Confirm Swap',
+  swapRate: 'Swap Rate',
+  minReceive: 'Minimum Received Amount',
+  priceImpact: 'Price Impact',
+  fee: 'Service Fee',
+
 };

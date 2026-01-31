@@ -30,5 +30,15 @@ export default {
   failed: '失敗',
   numberError: '数量エラー',
   dayError: '日数エラー',
-  noMore: 'これ以上ありません'
+  noMore: 'これ以上ありません',
+  avaSwap: 'AVA スワップ',
+  avaSwapDesc: 'AVA トレードイベントに参加して、豪華な報酬を獲得しましょう',
+  send: '送信',
+  all: 'すべて',
+  confirmSwap: '交換を確認',
+  swapRate: '交換レート',
+  minReceive: '最低受取数量',
+  priceImpact: '価格インパクト',
+  fee: '手数料',
+
 };

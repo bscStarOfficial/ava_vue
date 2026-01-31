@@ -30,5 +30,14 @@ export default {
   failed: 'Неудача',
   numberError: 'Ошибка количества',
   dayError: 'Ошибка в днях',
-  noMore: 'Больше нет'
+  noMore: 'Больше нет',
+  avaSwap: 'AVA Обмен',
+  avaSwapDesc: 'Примите участие в活动中 по обмену AVA и получите щедрые награды',
+  send: 'Отправить',
+  all: 'Все',
+  confirmSwap: 'Подтвердить обмен',
+  swapRate: 'Курс обмена',
+  minReceive: 'Минимальное количество получения',
+  priceImpact: 'Влияние на цену',
+  fee: 'Комиссия',
 };

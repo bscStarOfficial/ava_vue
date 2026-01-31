@@ -132,6 +132,15 @@ function showModal() {
           </div>
         </div>
       </div>
+      <!-- AVA SWAP-->
+      <div class="swap-info" @click="$router.push('/swap')">
+        <div class="swap-content">
+          <div class="swap-title">{{ $t('avaSwap') }}</div>
+          <div class="swap-desc">{{ $t('avaSwapDesc') }}</div>
+        </div>
+        <van-icon name="arrow" class="swap-arrow"/>
+      </div>
+
     </div>
     <!-- I AVA做市商投资规则-->
     <div class="rule">

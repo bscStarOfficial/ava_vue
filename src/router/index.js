@@ -8,6 +8,10 @@ const router = createRouter({
       path: "/",
       component: () => import("@/views/index/index.vue"),
     },
+    {
+      path: '/swap',
+      component: () => import('@/views/swap/swap.vue')
+    }
   ],
 });
 

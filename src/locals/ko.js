@@ -30,5 +30,14 @@ export default {
   failed: '실패',
   numberError: '수량 오류',
   dayError: '일수 오류',
-  noMore: '더 이상 없습니다'
+  noMore: '더 이상 없습니다',
+  avaSwap: 'AVA 스왑',
+  avaSwapDesc: 'AVA 거래 이벤트에 참여하여 푸짐한 보상을 받으세요',
+  send: '보내기',
+  all: '전체',
+  confirmSwap: '교환 확인',
+  swapRate: '교환율',
+  minReceive: '최소 수령량',
+  priceImpact: '가격 변동',
+  fee: '서비스费',
 };

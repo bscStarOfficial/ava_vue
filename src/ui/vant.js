@@ -17,7 +17,8 @@ import {
   Picker,
   Cell,
   Popover,
-  List
+  List,
+  NavBar,
 } from "vant";
 // 2. 引入组件样式
 import 'vant/lib/index.css';
@@ -43,6 +44,7 @@ const vant = {
     Vue.use(Cell);
     Vue.use(Popover);
     Vue.use(List);
+    Vue.use(NavBar );
   },
 };
 

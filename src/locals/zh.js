@@ -30,5 +30,14 @@ export default {
   failed: '失败',
   numberError: '数量错误',
   dayError: '天数错误',
-  noMore: '没有更多了'
+  noMore: '没有更多了',
+  avaSwap: 'AVA Swap',
+  avaSwapDesc: '参加 AVA 交易活动，赢取丰厚奖励',
+  send: '发送',
+  all: '全部',
+  confirmSwap: '确定兑换',
+  swapRate: '兑换价格',
+  minReceive: '最少接收数量',
+  priceImpact: '价格滑点',
+  fee: '服务费',
 };
