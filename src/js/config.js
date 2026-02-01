@@ -6,7 +6,9 @@ const addresses = {
     usdt: "0x55d398326f99059fF775485246999027B3197955",
     multiCall: '0x3e469a4D31913BE8b06f13cF654A2834B0fA45D3',
     rootAddress: '0x540e3D33ee5fC4B5489b63Bd24aD75716b140B3e',
-    avaView: '0x69F6C3aaf301c9704404eb5C4D5800B0a6AF1886'
+    avaView: '0x69F6C3aaf301c9704404eb5C4D5800B0a6AF1886',
+    avaUsdt: '0x5734a2460Ab02547e56d54A7C15E4B513c78E8c1',
+    pancakeV2Router: '0x10ED43C718714eb63d5aA57B78B54704E256024E'
   },
   "5611": {
     staking: '0x4057eB6A9416d782F01091F44942c0799c34C782',
@@ -28,4 +30,9 @@ export async function getChainId() {
   return parseInt(chainId, 16).toString()
 }
 
-
+import usdt_png from "@/assets/tokens/usdt.png";
+import ava_svg from "@/assets/tokens/ava.svg";
+export const icons = {
+  ava: ava_svg,
+  usdt: usdt_png
+}
