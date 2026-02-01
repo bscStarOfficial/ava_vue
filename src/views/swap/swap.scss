@@ -90,7 +90,7 @@
         flex: 1;
         padding: 4px 8px 4px 0;
         .amount-input {
-          height: 30px;
+          height: 44px;
           background: transparent;
           border: none;
           font-size: 18px;
@@ -98,8 +98,8 @@
           padding: 0;
           margin-bottom: 4px;
           :deep(.van-field__control) {
-            height: 30px;
-            line-height: 30px;
+            height: 44px;
+            line-height: 44px;
             font-family: 'PingFang', sans-serif;
             font-weight: 500;
             color: #000000;

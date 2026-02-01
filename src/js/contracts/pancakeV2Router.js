@@ -1,10 +1,10 @@
-import defaultAbi from '@/abis/pancakeV2Swap.js';
+import defaultAbi from '@/abis/pancakeV2Router.js';
 import {getAddress} from "@/js/config";
 import {getContract, getSelectedAddress, getSendPram} from "@/js/web3";
 import BigNumber from "bignumber.js";
 
 export async function getDefaultContract() {
-  let defaultAddress = await getAddress("pancakeSwapV2");
+  let defaultAddress = await getAddress("pancakeV2Router");
   return await getContract(defaultAbi, defaultAddress)
 }
 
@@ -15,5 +15,5 @@ export async function swapFeeOn(amountIn, amountOutMin, path = []) {
   const selectedAddress = getSelectedAddress();
   await contract?.methods?.swapExactTokensForTokensSupportingFeeOnTransferTokens(
     amountIn, amountOutMin, path, selectedAddress, 9999999999
-  ).send(getSendPram());
+  ).send(await getSendPram());
 }
