@@ -11,14 +11,12 @@ import Alert from "@/components/Alert/Alert.vue";
 
 const showSuccess = inject("showSuccess");
 const showError = inject("showError");
+const showPicker = ref(false);
 
 const {t} = useI18n();
 const swapStore = useSwapStore();
 
-// 模拟数据
-const minReceive = ref('0.2637 USDT');
-const priceImpact = ref('10%');
-const fee = ref('10%');
+const slip = ref(6);
 
 const swap = reactive({
   from: 'usdt',
@@ -80,6 +78,10 @@ function getAmountIn() {
   swap.amount0 = Number(amountIn);
 }
 
+async function all() {
+  swap.amount0 = swapStore.balance[swap.from];
+  getAmountOut()
+}
 
 async function doApprove() {
   if (loading[0]) return;
@@ -101,7 +103,7 @@ async function doSwap() {
   if (loading[1]) return;
   loading[1] = true;
   try {
-    let amountOutMin = swap.amount1 * 0.998;
+    let amountOutMin = swap.amount1 * (100 - slip.value) / 100;
     console.log(swap.from, swap.to)
     await swapFeeOn(swap.amount0, amountOutMin, [
       await getAddress(swap.from),
@@ -114,6 +116,19 @@ async function doSwap() {
     showError(t('failed'));
   }
   loading[1] = false;
+}
+
+const onConfirm = ({selectedValues}) => {
+  slip.value = selectedValues[0];
+  showPicker.value = false;
+};
+
+let columns = [];
+for (let i = 6; i <= 40; i++) {
+  columns.push({
+    text: `${i}%`,
+    value: i
+  });
 }
 
 </script>
@@ -131,7 +146,7 @@ async function doSwap() {
           <div class="value">
             <img src="@/assets/svg/wallet.svg" alt="" class="svg">
             <div>{{ swapStore.balance[swap.from] }}</div>
-            <span>{{ t('all') }}</span>
+            <span @click="all()">{{ t('all') }}</span>
           </div>
         </div>
         <div class="token-input">
@@ -187,9 +202,9 @@ async function doSwap() {
           </div>
           <div class="row-value">
             <div>1{{ swap.from.toUpperCase() }}
-              ≈{{ toFixed(swapStore.reserves[swap.to] / swapStore.reserves[swap.from], 4) }}{{ swap.to.toUpperCase() }}
+              ≈ {{ toFixed(swapStore.reserves[swap.to] / swapStore.reserves[swap.from], 4) }} {{ swap.to.toUpperCase() }}
             </div>
-            <img src="@/assets/svg/trans.svg" alt="" class="tip-svg">
+<!--            <img src="@/assets/svg/trans.svg" alt="" class="tip-svg">-->
           </div>
         </div>
         <div class="info-row">
@@ -197,29 +212,28 @@ async function doSwap() {
             <div>{{ t('minReceive') }}</div>
           </div>
           <div class="row-value">
-            <div>{{ minReceive }}</div>
+            <div>{{ toFixed(swap.amount1 * (100 - slip) / 100, 4) }} {{ swap.to.toUpperCase() }}</div>
           </div>
         </div>
         <div class="info-row">
           <div class="row-label">
             <div>{{ t('priceImpact') }}</div>
           </div>
-          <div class="row-value">
-            <div>{{ priceImpact }}</div>
-          </div>
-        </div>
-        <div class="info-row">
-          <div class="row-label">
-            <div>{{ t('fee') }}</div>
-            <img src="@/assets/svg/tip.svg" alt="" class="tip-svg">
-          </div>
-          <div class="row-value">
-            <div>{{ fee }}</div>
+          <div class="row-value" @click="showPicker=true">
+            <div>{{ slip }}%</div>
             <van-icon name="arrow" size="12px" color="#A3A3A5"/>
           </div>
         </div>
       </div>
     </div>
+
+    <van-popup v-model:show="showPicker" position="bottom">
+      <van-picker
+        :columns="columns"
+        @cancel="showPicker = false"
+        @confirm="onConfirm"
+      />
+    </van-popup>
 
     <Alert/>
   </div>
