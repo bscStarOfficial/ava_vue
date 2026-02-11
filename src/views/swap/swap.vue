@@ -16,7 +16,7 @@ const showPicker = ref(false);
 const {t} = useI18n();
 const swapStore = useSwapStore();
 
-const slip = ref(6);
+const slip = ref(36);
 
 const swap = reactive({
   from: 'usdt',
